@@ -12,6 +12,7 @@
 *.sln.docstates
 
 # .NET / MAUI generated files
+dotnet/
 *.binlog
 *.nupkg
 *.snupkg

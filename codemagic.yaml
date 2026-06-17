@@ -16,8 +16,8 @@ workflows:
         bundle_identifier: fr.groupeagra.easymobile
       vars:
         DOTNET_VERSION: 10.0.300
-        DOTNET_PATH: $CM_BUILD_DIR/dotnet
-        DOTNET: $CM_BUILD_DIR/dotnet/dotnet
+        DOTNET_PATH: $HOME/dotnet
+        DOTNET: $HOME/dotnet/dotnet
         PROJECT_FILE: AGRA-EASY-MOBILE.csproj
         BUNDLE_ID: fr.groupeagra.easymobile
         APP_DISPLAY_VERSION: "0.96"
