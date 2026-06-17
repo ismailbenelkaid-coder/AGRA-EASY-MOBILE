@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AGRA_EASY_MOBILE.ShippingWarningDetailView"
+             Title="Détail alerte"
+             BackgroundColor="#F6F8FB">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="18,16,18,24" Spacing="12">
+                <Border BackgroundColor="#EEF7FF" StrokeThickness="0" Padding="18,15">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="22" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="6">
+                        <Label x:Name="SubjectLabel"
+                               Text="Alerte"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="#0F172A"
+                               LineBreakMode="WordWrap" />
+                        <Label x:Name="DateLabel" FontSize="13" TextColor="#64748B" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="16,14">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label x:Name="ClientLineLabel"
+                               FontSize="12"
+                               TextColor="#64748B"
+                               LineBreakMode="TailTruncation"
+                               IsVisible="False" />
+                        <BoxView x:Name="ClientSeparator" HeightRequest="1" Color="#E2E8F0" IsVisible="False" />
+                        <Label x:Name="MessageLabel"
+                               FontSize="15"
+                               TextColor="#334155"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid x:Name="LoadingOverlay" IsVisible="False" BackgroundColor="#80F6F8FB">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" Color="#16A34A" />
+                <Label Text="Chargement du détail..." TextColor="#64748B" FontSize="13" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

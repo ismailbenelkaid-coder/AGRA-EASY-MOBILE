@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AGRA_EASY_MOBILE"
+             x:Class="AGRA_EASY_MOBILE.LoginView"
+             Title="Profil / paramètres"
+             BackgroundColor="#F6F8FB">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Grid Grid.Row="0" Padding="20,18,20,10">
+            <Border BackgroundColor="#EAF8F0" StrokeThickness="0" Padding="18,16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="22" />
+                </Border.StrokeShape>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                    <Border BackgroundColor="#16A34A" StrokeThickness="0" WidthRequest="52" HeightRequest="52">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <Image Source="ic_profile_header" WidthRequest="28" HeightRequest="28" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Profil et paramètres" FontAttributes="Bold" FontSize="20" TextColor="#0F172A" />
+                        <Label Text="Renseignez vos identifiants, l'entrepôt et le lien actif." FontSize="13" TextColor="#64748B" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,0,20,20" Spacing="14">
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="16,12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Image Source="ic_user" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" />
+                        <local:BorderlessEntry x:Name="EntryLogin"
+                               Grid.Column="1"
+                               Placeholder="Identifiant"
+                               BackgroundColor="Transparent"
+                               TextColor="#0F172A"
+                               PlaceholderColor="#94A3B8"
+                               VerticalOptions="Center"
+                               HeightRequest="34" />
+                    </Grid>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="16,12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Image Source="ic_lock" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" />
+                        <local:BorderlessEntry x:Name="EntryPassword"
+                               Grid.Column="1"
+                               Placeholder="Mot de passe"
+                               IsPassword="True"
+                               BackgroundColor="Transparent"
+                               TextColor="#0F172A"
+                               PlaceholderColor="#94A3B8"
+                               VerticalOptions="Center"
+                               HeightRequest="34" />
+                    </Grid>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="16,8">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Image Source="ic_globe" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" />
+                        <local:BorderlessPicker x:Name="PickerWarehouse"
+                                Grid.Column="1"
+                                Title="Sélectionner l'entrepôt"
+                                BackgroundColor="Transparent"
+                                TextColor="#0F172A"
+                                TitleColor="#94A3B8"
+                                VerticalOptions="Center"
+                                HeightRequest="34" />
+                    </Grid>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="16,12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                        <Image Source="ic_globe" WidthRequest="16" HeightRequest="16" VerticalOptions="Center" Opacity="0.7" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="Lien secondaire" FontAttributes="Bold" FontSize="13" TextColor="#0F172A" />
+                            <Label Text="Active l'URL secondaire, utile pour vos tests réseau." FontSize="12" TextColor="#64748B" />
+                        </VerticalStackLayout>
+                        <Grid Grid.Column="2"
+                              WidthRequest="62"
+                              HeightRequest="38"
+                              HorizontalOptions="End"
+                              VerticalOptions="Center">
+                            <Border BackgroundColor="#CBD5E1"
+                                    Stroke="#94A3B8"
+                                    StrokeThickness="1"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    WidthRequest="54"
+                                    HeightRequest="30">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="15" />
+                                </Border.StrokeShape>
+                            </Border>
+                            <Switch x:Name="SwitchLinkType"
+                                    OnColor="#16A34A"
+                                    ThumbColor="White"
+                                    WidthRequest="58"
+                                    HeightRequest="36"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center" />
+                        </Grid>
+
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="2" BackgroundColor="#F6F8FB" StrokeThickness="0" Padding="20,10,20,16">
+            <Button x:Name="SaveSettingsButton" Text="ENREGISTRER LE PROFIL"
+                    BackgroundColor="#16A34A"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="18"
+                    HeightRequest="52"
+                    Clicked="OnSaveSettingsClicked" />
+        </Border>
+        <Grid x:Name="ConnectionLoadingOverlay"
+              IsVisible="False"
+              BackgroundColor="#80F6F8FB"
+              InputTransparent="False">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                <ActivityIndicator x:Name="ConnectionLoadingIndicator" IsRunning="False" Color="#16A34A" WidthRequest="46" HeightRequest="46" />
+                <Label Text="Connexion en cours..." FontSize="13" TextColor="#64748B" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

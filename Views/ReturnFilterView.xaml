@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AGRA_EASY_MOBILE"
+             x:Class="AGRA_EASY_MOBILE.ReturnFilterView"
+             Title="Paramètres de recherche retours"
+             BackgroundColor="#F6F8FB">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Grid Grid.Row="0" Padding="20,18,20,8">
+            <Border BackgroundColor="#EEF7FF" StrokeThickness="0" Padding="18,16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="22" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Filtrer les retours" FontSize="20" FontAttributes="Bold" TextColor="#0F172A" />
+                    <Label Text="Saisissez uniquement les critères utiles à la recherche." FontSize="13" TextColor="#64748B" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,0,20,18" Spacing="14">
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Période" FontSize="15" FontAttributes="Bold" TextColor="#16A34A" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Border Grid.Column="0" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#FFFFFF" Padding="12,8">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <Grid RowDefinitions="Auto,34" ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <Label Grid.Row="0" Grid.ColumnSpan="2" Text="De" FontSize="11" TextColor="#64748B" />
+                                    <local:BorderlessEntry x:Name="StartDateEntry"
+                                                           Grid.Row="1"
+                                                           Grid.Column="0"
+                                                           Placeholder="jj/mm/aaaa"
+                                                           Keyboard="Text"
+                                                           MaxLength="10"
+                                                           ReturnType="Next"
+                                                           PlaceholderColor="#94A3B8"
+                                                           TextColor="#0F172A"
+                                                           BackgroundColor="Transparent"
+                                                           HorizontalTextAlignment="Center"
+                                                           VerticalTextAlignment="Center"
+                                                           HeightRequest="34" />
+                                    <Grid Grid.Row="1"
+                                          Grid.Column="1"
+                                          WidthRequest="38"
+                                          HeightRequest="34">
+                                        <Border BackgroundColor="#E0F2FE"
+                                                StrokeThickness="0"
+                                                WidthRequest="38"
+                                                HeightRequest="34">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12" />
+                                            </Border.StrokeShape>
+                                            <Image Source="ic_calendar.svg"
+                                                   WidthRequest="22"
+                                                   HeightRequest="22"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"
+                                                   Aspect="AspectFit" />
+                                        </Border>
+                                        <DatePicker x:Name="StartDatePicker"
+                                                    DateSelected="OnStartDateSelected"
+                                                    Format="dd/MM/yyyy"
+                                                    WidthRequest="38"
+                                                    HeightRequest="34"
+                                                    BackgroundColor="Transparent"
+                                                    Opacity="0.01" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+
+                            <Border Grid.Column="1" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#FFFFFF" Padding="12,8">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <Grid RowDefinitions="Auto,34" ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Jusqu'à" FontSize="11" TextColor="#64748B" />
+                                    <local:BorderlessEntry x:Name="EndDateEntry"
+                                                           Grid.Row="1"
+                                                           Grid.Column="0"
+                                                           Placeholder="jj/mm/aaaa"
+                                                           Keyboard="Text"
+                                                           MaxLength="10"
+                                                           ReturnType="Done"
+                                                           PlaceholderColor="#94A3B8"
+                                                           TextColor="#0F172A"
+                                                           BackgroundColor="Transparent"
+                                                           HorizontalTextAlignment="Center"
+                                                           VerticalTextAlignment="Center"
+                                                           HeightRequest="34" />
+                                    <Grid Grid.Row="1"
+                                          Grid.Column="1"
+                                          WidthRequest="38"
+                                          HeightRequest="34">
+                                        <Border BackgroundColor="#E0F2FE"
+                                                StrokeThickness="0"
+                                                WidthRequest="38"
+                                                HeightRequest="34">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12" />
+                                            </Border.StrokeShape>
+                                            <Image Source="ic_calendar.svg"
+                                                   WidthRequest="22"
+                                                   HeightRequest="22"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"
+                                                   Aspect="AspectFit" />
+                                        </Border>
+                                        <DatePicker x:Name="EndDatePicker"
+                                                    DateSelected="OnEndDateSelected"
+                                                    Format="dd/MM/yyyy"
+                                                    WidthRequest="38"
+                                                    HeightRequest="34"
+                                                    BackgroundColor="Transparent"
+                                                    Opacity="0.01" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Critères" FontSize="15" FontAttributes="Bold" TextColor="#16A34A" />
+
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,*" RowSpacing="10" ColumnSpacing="12">
+                            <Border x:Name="AccountCodeContainer" Grid.Row="2" Grid.Column="1" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#FFFFFF" Padding="12,8">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <Grid RowDefinitions="Auto,34" ColumnDefinitions="*,38" ColumnSpacing="8">
+                                    <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Code client" FontSize="11" TextColor="#64748B" />
+                                    <local:BorderlessEntry x:Name="EntryAccountCode"
+                                                           Grid.Row="1"
+                                                           Grid.Column="0"
+                                                           Placeholder="Ex : 000181"
+                                                           Keyboard="Text"
+                                                           PlaceholderColor="#94A3B8"
+                                                           TextColor="#0F172A"
+                                                           BackgroundColor="Transparent"
+                                                           HeightRequest="34"
+                                                           VerticalTextAlignment="Center" />
+                                    <ImageButton x:Name="SelectClientButton"
+                                                 Grid.Row="1"
+                                                 Grid.Column="1"
+                                                 Source="ic_user.svg"
+                                                 Clicked="OnSelectClientClicked"
+                                                 BackgroundColor="#E0F2FE"
+                                                 CornerRadius="12"
+                                                 WidthRequest="38"
+                                                 HeightRequest="34"
+                                                 Padding="7"
+                                                 Aspect="AspectFit" />
+                                </Grid>
+                            </Border>
+
+                            <Border Grid.Row="0" Grid.Column="0" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#FFFFFF" Padding="12,8">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <Grid ColumnDefinitions="*,42" ColumnSpacing="8">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                        <Label Text="Article" FontSize="11" TextColor="#64748B" />
+                                        <local:BorderlessEntry x:Name="EntryProduct"
+                                                               Placeholder="Référence"
+                                                               PlaceholderColor="#94A3B8"
+                                                               TextColor="#0F172A"
+                                                               BackgroundColor="Transparent"
+                                                               HeightRequest="34"
+                                                               VerticalTextAlignment="Center" />
+                                    </VerticalStackLayout>
+                                    <Grid Grid.Column="1" WidthRequest="42" RowDefinitions="*,*" RowSpacing="2" VerticalOptions="Fill">
+                                        <Border Grid.Row="0" BackgroundColor="#DCFCE7" StrokeThickness="0" Padding="0" Margin="0,1,0,1" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="9" />
+                                            </Border.StrokeShape>
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnScanProductBarcodeClicked" />
+                                            </Border.GestureRecognizers>
+                                            <Image Source="ic_barcode_scan.svg" WidthRequest="17" HeightRequest="15" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" />
+                                        </Border>
+                                        <Border Grid.Row="1" BackgroundColor="#E0F2FE" StrokeThickness="0" Padding="0" Margin="0,1,0,1" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="9" />
+                                            </Border.StrokeShape>
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnSelectProductClicked" />
+                                            </Border.GestureRecognizers>
+                                            <Image Source="ic_search_product.svg" WidthRequest="17" HeightRequest="15" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" />
+                                        </Border>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+
+                            <Border x:Name="ReturnStatusContainer" Grid.Row="0" Grid.Column="1" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#FFFFFF" Padding="12,8">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="État de retour" FontSize="11" TextColor="#64748B" />
+                                    <local:BorderlessPicker x:Name="PickerReturnStatus"
+                                                            Title="Tous"
+                                                            TitleColor="#94A3B8"
+                                                            TextColor="#0F172A"
+                                                            BackgroundColor="Transparent"
+                                                            HeightRequest="34">
+                                        <Picker.ItemsSource>
+                                            <x:Array Type="{x:Type x:String}">
+                                                <x:String></x:String>
+                                                <x:String>Traité</x:String>
+                                                <x:String>En cours</x:String>
+                                                <x:String>Externe</x:String>
+                                            </x:Array>
+                                        </Picker.ItemsSource>
+                                    </local:BorderlessPicker>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border x:Name="ProductStatusContainer" Grid.Row="1" Grid.Column="0" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#FFFFFF" Padding="12,8">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Status de traitement" FontSize="11" TextColor="#64748B" />
+                                    <local:BorderlessPicker x:Name="PickerProductStatus"
+                                                            Title="Tous"
+                                                            TitleColor="#94A3B8"
+                                                            TextColor="#0F172A"
+                                                            BackgroundColor="Transparent"
+                                                            HeightRequest="34">
+                                        <Picker.ItemsSource>
+                                            <x:Array Type="{x:Type x:String}">
+                                                <x:String></x:String>
+                                                <x:String>Accepté</x:String>
+                                                <x:String>Accepté en garantie</x:String>
+                                                <x:String>Remboursé</x:String>
+                                                <x:String>Retour au fournisseur</x:String>
+                                                <x:String>Rejeté</x:String>
+                                                <x:String>Manquant</x:String>
+                                            </x:Array>
+                                        </Picker.ItemsSource>
+                                    </local:BorderlessPicker>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border Grid.Row="1" Grid.Column="1" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#FFFFFF" Padding="12,8">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Code retour" FontSize="11" TextColor="#64748B" />
+                                    <local:BorderlessEntry x:Name="EntryReturnCode"
+                                                           Placeholder="N° retour"
+                                                           Keyboard="Text"
+                                                           PlaceholderColor="#94A3B8"
+                                                           TextColor="#0F172A"
+                                                           BackgroundColor="Transparent"
+                                                           HeightRequest="34" />
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border Grid.Row="2" Grid.Column="0" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#FFFFFF" Padding="12,8">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Code retour client" FontSize="11" TextColor="#64748B" />
+                                    <local:BorderlessEntry x:Name="EntryReturnClientCode"
+                                                           Placeholder="Code client"
+                                                           PlaceholderColor="#94A3B8"
+                                                           TextColor="#0F172A"
+                                                           BackgroundColor="Transparent"
+                                                           HeightRequest="34" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid Grid.Row="2" Padding="20,10,20,16" ColumnDefinitions="*,*" ColumnSpacing="12" BackgroundColor="#F6F8FB">
+            <Button Grid.Column="0"
+                    Text="ANNULER"
+                    Clicked="OnCancelClicked"
+                    BackgroundColor="#E2E8F0"
+                    TextColor="#334155"
+                    FontAttributes="Bold"
+                    CornerRadius="18"
+                    HeightRequest="50" />
+            <Button Grid.Column="1"
+                    Text="VALIDER"
+                    Clicked="OnApplyFilterClicked"
+                    BackgroundColor="#16A34A"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="18"
+                    HeightRequest="50" />
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AGRA_EASY_MOBILE.RefusedReturnImageView"
+             BackgroundColor="#111827"
+             Shell.NavBarIsVisible="False">
+    <Grid>
+        <Image x:Name="FullImage"
+               Aspect="AspectFit"
+               BackgroundColor="#111827"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill" />
+
+        <Button Text="✕"
+                Clicked="OnCloseClicked"
+                BackgroundColor="#CC000000"
+                TextColor="White"
+                FontAttributes="Bold"
+                FontSize="18"
+                CornerRadius="22"
+                WidthRequest="46"
+                HeightRequest="46"
+                Padding="0"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                Margin="0,24,20,0" />
+    </Grid>
+</ContentPage>

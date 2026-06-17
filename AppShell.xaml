@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="AGRA_EASY_MOBILE.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AGRA_EASY_MOBILE"
+    Shell.FlyoutBehavior="Flyout"
+    FlyoutHeaderBehavior="Fixed"
+    FlyoutBackgroundColor="#F6F8FB">
+
+    <Shell.Resources>
+        <Style x:Key="SubMenuLabel" TargetType="Label">
+            <Setter Property="TextColor" Value="#1F2937" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+
+        <Style x:Key="SubMenuStack" TargetType="HorizontalStackLayout">
+            <Setter Property="Spacing" Value="15" />
+            <Setter Property="Padding" Value="20,12,10,12" />
+        </Style>
+
+        <Style x:Key="HeaderButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#16A34A" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="HeightRequest" Value="42" />
+        </Style>
+    </Shell.Resources>
+
+    <ShellContent
+        Title="EASY Mobile"
+        Route="home"
+        ContentTemplate="{DataTemplate views:MainPage}" />
+
+    <FlyoutItem Route="groupe_expedition" FlyoutItemIsVisible="False">
+        <Tab Title="Commande" Route="orderList" Icon="ic_orders.png">
+            <ShellContent ContentTemplate="{DataTemplate views:OrderListView}" />
+        </Tab>
+        <Tab Title="Colis" Route="containerList" Icon="ic_colis.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ContainerListView}" />
+        </Tab>
+        <Tab Title="B.Livraison" Route="deliveryList" Icon="ic_bl.png">
+            <ShellContent ContentTemplate="{DataTemplate views:DeliveryListView}" />
+        </Tab>
+        <Tab Title="Ruptures" Route="ruptureList" Icon="ic_rupture.png">
+            <ShellContent ContentTemplate="{DataTemplate views:RuptureListView}" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Route="groupe_retour" FlyoutItemIsVisible="False">
+        <Tab Title="Nouveau" Route="newReturn" Icon="ic_return_add.png">
+            <ShellContent ContentTemplate="{DataTemplate views:NewReturnView}" />
+        </Tab>
+        <Tab Title="Suivi" Route="trackReturn" Icon="ic_return_track.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ReturnListView}" />
+        </Tab>
+        <Tab Title="Retours refusés" Route="deniedReturn" Icon="ic_return_denied.png">
+            <ShellContent ContentTemplate="{DataTemplate views:RefusedReturnListView}" />
+        </Tab>
+        <Tab Title="Remb. Fourn." Route="supplierRefund" Icon="ic_refund_supplier.png">
+            <ShellContent ContentTemplate="{DataTemplate views:SupplierRefundView}" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Route="groupe_facturation" FlyoutItemIsVisible="False">
+        <Tab Title="Factures" Route="customerBillingList" Icon="ic_invoice.png">
+            <ShellContent ContentTemplate="{DataTemplate views:CustomerBillingListView}" />
+        </Tab>
+        <Tab Title="À facturer" Route="invoiceWaitingList" Icon="ic_waiting.png">
+            <ShellContent ContentTemplate="{DataTemplate views:InvoiceWaitingListView}" />
+        </Tab>
+        <Tab Title="À rembourser" Route="refundWaitingList" Icon="ic_refund.png">
+            <ShellContent ContentTemplate="{DataTemplate views:RefundInvoiceListView}" />
+        </Tab>
+        <Tab Title="Frais de port" Route="shippingCostList" Icon="truck.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ShippingCostListView}" />
+        </Tab>
+    </FlyoutItem>
+
+    <ShellContent Route="catalogue" FlyoutItemIsVisible="False" ContentTemplate="{DataTemplate views:CatalogueView}" />
+    <ShellContent Route="orderBasket" FlyoutItemIsVisible="False" ContentTemplate="{DataTemplate views:OrderBasketView}" />
+    <ShellContent Route="notifications" FlyoutItemIsVisible="False" ContentTemplate="{DataTemplate views:ShippingWarningListView}" />
+    <ShellContent Route="login" FlyoutItemIsVisible="False" ContentTemplate="{DataTemplate views:LoginView}" />
+
+    <Shell.FlyoutHeader>
+        <VerticalStackLayout Padding="15,20,15,15" Spacing="12" BackgroundColor="White">
+            <Border BackgroundColor="White" StrokeThickness="0" Padding="6" Margin="0,0,0,10">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoToHome" />
+                </Border.GestureRecognizers>
+                <Image Source="agra_logo_clean.png"
+                       HeightRequest="58"
+                       Aspect="AspectFit"
+                       HorizontalOptions="Center" />
+            </Border>
+
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                <Button Grid.Column="0" Text="Panier" Style="{StaticResource HeaderButton}" Clicked="GoToOrderBasket" />
+                <Button Grid.Column="1" Text="Catalogue" Style="{StaticResource HeaderButton}" Clicked="GoToCatalogue" />
+            </Grid>
+            <BoxView HeightRequest="1" Color="#E5EAF0" Margin="0,5,0,0" />
+        </VerticalStackLayout>
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutContent>
+        <ScrollView>
+            <VerticalStackLayout Padding="15,15,15,20" Spacing="15">
+                <Frame BackgroundColor="White" CornerRadius="14" HasShadow="True" Padding="0" BorderColor="#E5EAF0">
+                    <VerticalStackLayout>
+                        <Grid Padding="18,15" ColumnDefinitions="Auto, *, Auto">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ToggleExpedition" />
+                            </Grid.GestureRecognizers>
+                            <Image Source="truck.png" WidthRequest="22" />
+                            <Label Grid.Column="1" Text="EXPÉDITION" FontAttributes="Bold" Margin="15,0" VerticalOptions="Center" TextColor="#16A34A" />
+                            <Label Grid.Column="2" x:Name="ArrowExpedition" Text="▼" FontSize="10" VerticalOptions="Center" />
+                        </Grid>
+                        <VerticalStackLayout x:Name="SubMenuExpedition" IsVisible="False">
+                            <BoxView HeightRequest="1" Color="#EEF2F6" Margin="15,0" />
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToOrderList" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="ic_orders.png" WidthRequest="18" />
+                                <Label Text="Commande" Style="{StaticResource SubMenuLabel}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToContainerList" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="ic_colis.png" WidthRequest="18" />
+                                <Label Text="Colis" Style="{StaticResource SubMenuLabel}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToDeliveryList" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="ic_bl.png" WidthRequest="18" />
+                                <Label Text="Bons de livraison" Style="{StaticResource SubMenuLabel}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToRuptureList" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="ic_rupture.png" WidthRequest="18" />
+                                <Label Text="Ruptures" Style="{StaticResource SubMenuLabel}" TextColor="#DC2626" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="White" CornerRadius="14" HasShadow="True" Padding="0" BorderColor="#E5EAF0">
+                    <VerticalStackLayout>
+                        <Grid Padding="18,15" ColumnDefinitions="Auto, *, Auto">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ToggleRetour" />
+                            </Grid.GestureRecognizers>
+                            <Image Source="ic_refund.png" WidthRequest="22" />
+                            <Label Grid.Column="1" Text="RETOUR" FontAttributes="Bold" Margin="15,0" VerticalOptions="Center" TextColor="#16A34A" />
+                            <Label Grid.Column="2" x:Name="ArrowRetour" Text="▼" FontSize="10" VerticalOptions="Center" />
+                        </Grid>
+                        <VerticalStackLayout x:Name="SubMenuRetour" IsVisible="False">
+                            <BoxView HeightRequest="1" Color="#EEF2F6" Margin="15,0" />
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToNewReturn" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="ic_return_add.png" WidthRequest="18" />
+                                <Label Text="Nouveau retour" Style="{StaticResource SubMenuLabel}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToTrackReturn" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="ic_return_track.png" WidthRequest="18" />
+                                <Label Text="Suivi" Style="{StaticResource SubMenuLabel}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToDeniedReturn" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="ic_return_denied.png" WidthRequest="18" />
+                                <Label Text="Retours refusés" Style="{StaticResource SubMenuLabel}" TextColor="#DC2626" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToSupplierRefund" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="ic_refund_supplier.png" WidthRequest="18" />
+                                <Label Text="Remboursement fournisseur" Style="{StaticResource SubMenuLabel}" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame x:Name="FrameFacturation" BackgroundColor="White" CornerRadius="14" HasShadow="True" Padding="0" BorderColor="#E5EAF0">
+                    <VerticalStackLayout>
+                        <Grid Padding="18,15" ColumnDefinitions="Auto, *, Auto">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ToggleFacturation" />
+                            </Grid.GestureRecognizers>
+                            <Image Source="wallet.png" WidthRequest="22" />
+                            <Label Grid.Column="1" Text="FACTURATION" FontAttributes="Bold" Margin="15,0" VerticalOptions="Center" TextColor="#16A34A" />
+                            <Label Grid.Column="2" x:Name="ArrowFacturation" Text="▼" FontSize="10" VerticalOptions="Center" />
+                        </Grid>
+                        <VerticalStackLayout x:Name="SubMenuFacturation" IsVisible="False">
+                            <BoxView HeightRequest="1" Color="#EEF2F6" Margin="15,0" />
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToCustomerBilling" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="ic_invoice.png" WidthRequest="18" />
+                                <Label Text="Factures" Style="{StaticResource SubMenuLabel}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToInvoiceWaiting" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="ic_waiting.png" WidthRequest="18" />
+                                <Label Text="À facturer" Style="{StaticResource SubMenuLabel}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToRefundWaiting" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="ic_refund.png" WidthRequest="18" />
+                                <Label Text="À rembourser" Style="{StaticResource SubMenuLabel}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Style="{StaticResource SubMenuStack}">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GoToShippingCost" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Image Source="truck.png" WidthRequest="18" />
+                                <Label Text="Frais de port" Style="{StaticResource SubMenuLabel}" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Shell.FlyoutContent>
+    <Shell.FlyoutFooter>
+        <Frame CornerRadius="14" HasShadow="True" Margin="15,10" Padding="0" BorderColor="#E5EAF0" BackgroundColor="White">
+            <Grid ColumnDefinitions="*, *" Padding="10" HeightRequest="64" ColumnSpacing="8">
+                <Button Grid.Column="0"
+                        x:Name="AlertButtonShell"
+                        Text="Alertes"
+                        ImageSource="bell.svg"
+                        Clicked="OnNotificationsClicked"
+                        BackgroundColor="Transparent"
+                        TextColor="#475569"
+                        FontSize="12" />
+                <Button Grid.Column="1"
+                        Text="Paramètres"
+                        ImageSource="ic_user"
+                        Clicked="OnProfileClicked"
+                        BackgroundColor="Transparent"
+                        TextColor="#475569"
+                        FontSize="12"
+                        CornerRadius="10" />
+            </Grid>
+        </Frame>
+    </Shell.FlyoutFooter>
+
+</Shell>

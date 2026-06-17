@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AGRA_EASY_MOBILE.MainPage"
+             Title="EASY Mobile"
+             BackgroundColor="#F6F8FB">
+    <ScrollView>
+        <VerticalStackLayout Padding="18,16,18,24" Spacing="14">
+            <Border BackgroundColor="#FFFFFF" Stroke="#E2E8F0" Padding="16,14">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="24" />
+                </Border.StrokeShape>
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="12">
+                        <Image Source="agra_logo_clean.png"
+                               HeightRequest="42"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Start" />
+                        <Label Text="EASY Mobile"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               TextColor="#0F172A" />
+                        <Label Text="L'accès mobile aux services AGRA : articles, commandes, expéditions, retours et facturation."
+                               FontSize="12"
+                               TextColor="#64748B"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                    <ImageButton x:Name="AlertButtonHome"
+                                 Grid.Column="1"
+                                 Source="bell.svg"
+                                 Clicked="OnNotificationsClicked"
+                                 BackgroundColor="#EEF7FF"
+                                 WidthRequest="46"
+                                 HeightRequest="46"
+                                 CornerRadius="16"
+                                 Padding="11"
+                                 Aspect="AspectFit"
+                                 VerticalOptions="Start" />
+                </Grid>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="8">
+                <Border BackgroundColor="White" Stroke="#E2E8F0" Padding="8,7">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                        <Label Text="Groupement" FontSize="11" FontAttributes="Bold" TextColor="#16A34A" HorizontalTextAlignment="Center" />
+                        <Label Text="AGRA" FontSize="10" TextColor="#64748B" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="1" BackgroundColor="White" Stroke="#E2E8F0" Padding="8,7">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                        <Label Text="Réseau" FontSize="11" FontAttributes="Bold" TextColor="#16A34A" HorizontalTextAlignment="Center" />
+                        <Label Text="DROP" FontSize="10" TextColor="#64748B" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Row="1" BackgroundColor="White" Stroke="#E2E8F0" Padding="8,7">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                        <Label Text="Réseau" FontSize="11" FontAttributes="Bold" TextColor="#16A34A" HorizontalTextAlignment="Center" />
+                        <Label Text="PROXIMICA" FontSize="10" TextColor="#64748B" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" BackgroundColor="White" Stroke="#E2E8F0" Padding="8,7">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                        <Label Text="Réseau" FontSize="11" FontAttributes="Bold" TextColor="#16A34A" HorizontalTextAlignment="Center" />
+                        <Label Text="PPOINT-REPAR" FontSize="10" TextColor="#64748B" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <Label Text="Accès rapide" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" Margin="0,4,0,0" />
+
+            <Grid>
+                <Image Source="drop_network_background.png"
+                       Aspect="AspectFit"
+                       Opacity="0.08"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       InputTransparent="True" />
+                <VerticalStackLayout Spacing="10">
+                    <Border BackgroundColor="#FFFFFF" Stroke="#E2E8F0" Padding="12,11">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="GoToCatalogue" /></Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Image Source="ic_search_product.svg" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="Catalogue et commandes" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                                <Label Text="Rechercher un article, consulter prix/stock et préparer le panier." FontSize="11" TextColor="#64748B" LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <Border BackgroundColor="#FFFFFF" Stroke="#E2E8F0" Padding="12,11">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="GoToOrderList" /></Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Image Source="truck.svg" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="Expéditions" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                                <Label Text="Suivre commandes, bons de livraison, ruptures et colis." FontSize="11" TextColor="#64748B" LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <Border BackgroundColor="#FFFFFF" Stroke="#E2E8F0" Padding="12,11">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="GoToTrackReturn" /></Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Image Source="ic_refund.svg" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="Retours et garanties" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                                <Label Text="Créer un retour, suivre les statuts et traiter les refus." FontSize="11" TextColor="#64748B" LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="BillingShippingCard" BackgroundColor="#FFFFFF" Stroke="#E2E8F0" Padding="12,11">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="GoToCustomerBilling" /></Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Image Source="ic_invoice.svg" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="Facturations et frais de port" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                                <Label Text="Consulter les factures, les attentes et les frais à facturer." FontSize="11" TextColor="#64748B" LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Border BackgroundColor="#0F172A" StrokeThickness="0" Padding="14,12" Margin="0,4,0,0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <Image Source="ic_globe.svg" WidthRequest="24" HeightRequest="24" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                        <Label Text="Guide mobile AGRA" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="Le menu latéral donne accès aux modules détaillés disponibles selon votre profil."
+                               FontSize="11" TextColor="#CBD5E1" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

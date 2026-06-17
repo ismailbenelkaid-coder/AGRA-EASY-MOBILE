@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AGRA_EASY_MOBILE"
+             x:Class="AGRA_EASY_MOBILE.ContainerListView"
+             Title="Colis"
+             BackgroundColor="#F6F8FB">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
+            <local:StringEmptyConverter x:Key="StringEmptyConverter" />
+            <local:SaturdayDeliveryConverter x:Key="SaturdayDeliveryConverter" />
+            <local:MasterContainerNoDisplayConverter x:Key="MasterContainerNoDisplayConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0" BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="0" Padding="10,8,10,6">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" VerticalOptions="Center">
+                <BoxView Grid.Column="0" WidthRequest="1" Opacity="0" />
+
+                <HorizontalStackLayout Grid.Column="1"
+                                       Spacing="5"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center">
+                    <Border Stroke="#D9E2EC"
+                            StrokeThickness="1"
+                            BackgroundColor="#F8FAFC"
+                            Padding="7,1"
+                            MinimumHeightRequest="36"
+                            VerticalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="13"/>
+                        </Border.StrokeShape>
+                        <Grid WidthRequest="104"
+
+                              HeightRequest="36"
+
+                              HorizontalOptions="Fill"
+
+                              VerticalOptions="Fill">
+
+                            <local:BorderlessPicker x:Name="PickerSortMode"
+
+                                Title="Tri"
+
+                                SelectedIndexChanged="OnSortModeChanged"
+
+                                FontSize="12"
+
+                                TextColor="#0F172A"
+
+                                TitleColor="#64748B"
+
+                                BackgroundColor="Transparent"
+
+                                    HorizontalOptions="Fill"
+
+                                    VerticalOptions="Fill"
+
+                                    Opacity="0.01" />
+
+                            <Label Text="{Binding Source={x:Reference PickerSortMode}, Path=SelectedItem}"
+
+                                   FontSize="12"
+
+                                   TextColor="#0F172A"
+
+                                   HorizontalOptions="Fill"
+
+                                   VerticalOptions="Fill"
+
+                                   HorizontalTextAlignment="Center"
+
+                                   VerticalTextAlignment="Center"
+
+                                   InputTransparent="True" />
+
+                        </Grid>
+                    </Border>
+
+                    <Border IsVisible="{Binding ShowSortDirection}"
+                            Stroke="#D9E2EC"
+                            StrokeThickness="1"
+                            BackgroundColor="#F8FAFC"
+                            Padding="0"
+                            WidthRequest="38"
+                            MinimumHeightRequest="36"
+                            VerticalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="13"/>
+                        </Border.StrokeShape>
+                        <Button Text="{Binding SortDirectionIcon}"
+                                Clicked="OnSortDirectionToggleClicked"
+                                BackgroundColor="Transparent"
+                                TextColor="#0F172A"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Padding="0"
+                                HeightRequest="34"
+                                WidthRequest="36" />
+                    </Border>
+                </HorizontalStackLayout>
+
+                <Border Grid.Column="2"
+                        Stroke="#D9E2EC"
+                        StrokeThickness="1"
+                        BackgroundColor="#F8FAFC"
+                        Padding="8,5"
+                        MinimumHeightRequest="36"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="13"/>
+                    </Border.StrokeShape>
+                    <Button Text="Filtre"
+                            Clicked="OnOpenFilterClicked"
+                            BackgroundColor="Transparent"
+                            TextColor="#0F172A"
+                            FontSize="12"
+                            FontAttributes="Bold"
+                            Padding="0"
+                            HeightRequest="24" />
+                </Border>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <CollectionView x:Name="ContainerCollection" Margin="12,8,12,12">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,4" Padding="14,12" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="18"/>
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="8">
+                                <Grid ColumnDefinitions="Auto,Auto,Auto,*" ColumnSpacing="8">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding DisplayContainerNo, StringFormat='Colis {0}'}"
+                                           FontAttributes="Bold"
+                                           FontSize="16"
+                                           TextColor="#16A34A"
+                                           VerticalOptions="Center"
+                                           LineBreakMode="NoWrap" />
+
+                                    <Border Grid.Column="1" StrokeThickness="0" BackgroundColor="#EEF7FF" Padding="8,4" VerticalOptions="Center">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding Warehouse}" FontSize="11" TextColor="#2563EB" LineBreakMode="NoWrap" />
+                                    </Border>
+
+                                    <Border Grid.Column="2" StrokeThickness="0" BackgroundColor="#F1F5F9" Padding="8,4" VerticalOptions="Center">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding Type}" FontSize="11" TextColor="#475569" LineBreakMode="NoWrap" />
+                                    </Border>
+
+                                    <Label Grid.Column="3"
+                                           Text="{Binding CreationDate, StringFormat='{0:dd/MM/yyyy HH:mm}'}"
+                                           FontSize="12"
+                                           TextColor="#64748B"
+                                           VerticalOptions="Center"
+                                           HorizontalTextAlignment="End"
+                                           LineBreakMode="NoWrap" />
+                                </Grid>
+
+                                <Label Text="{Binding DisplayAccount}"
+                                       IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:ContainerListView}}, Path=ShowAccountInfo}"
+                                       FontSize="13"
+                                       LineBreakMode="TailTruncation"
+                                       TextColor="#334155" />
+
+                                <BoxView HeightRequest="0.5" Color="#E5EAF0" />
+
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                    <Label Text="{Binding Status}" FontSize="12" FontAttributes="Bold" TextColor="#0F172A" />
+                                    <Label Grid.Column="1" Text="{Binding CarrierName}" FontSize="12" TextColor="#475569" HorizontalTextAlignment="End" LineBreakMode="TailTruncation" />
+                                </Grid>
+
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                    <Label Text="{Binding DelivryId, StringFormat='BL : {0}'}" FontSize="11" TextColor="#64748B" />
+                                    <Label Grid.Column="1" Text="{Binding Weight, StringFormat='Poids : {0} KG'}" FontSize="11" FontAttributes="Bold" TextColor="#16A34A" />
+                                </Grid>
+
+                                <Grid ColumnDefinitions="*,Auto,*"
+                                      ColumnSpacing="10"
+                                      IsVisible="{Binding HasThirdDetailLine}">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding DisplayMasterContainerNo, StringFormat='Palette : {0}'}"
+                                           IsVisible="{Binding HasMasterContainerNo}"
+                                           FontSize="11"
+                                           TextColor="#64748B"
+                                           HorizontalOptions="Start"
+                                           LineBreakMode="TailTruncation" />
+
+                                    <Label Grid.Column="1"
+                                           Text="Samedi"
+                                           IsVisible="{Binding IsSaturdayDelivery}"
+                                           FontSize="11"
+                                           FontAttributes="Bold"
+                                           TextColor="#DC2626"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center" />
+
+                                    <Grid Grid.Column="2" HorizontalOptions="End">
+                                        <Label Text="{Binding CarrierLabel}"
+                                               IsVisible="{Binding HasTrackingLink}"
+                                               FontSize="11"
+                                               FontAttributes="Bold"
+                                               TextColor="#2563EB"
+                                               TextDecorations="Underline"
+                                               HorizontalTextAlignment="End"
+                                               LineBreakMode="TailTruncation">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnTrackingTapped" CommandParameter="{Binding .}" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                        <Label Text="{Binding CarrierLabel}"
+                                               IsVisible="{Binding HasCarrierLabelWithoutLink}"
+                                               FontSize="11"
+                                               TextColor="#64748B"
+                                               HorizontalTextAlignment="End"
+                                               LineBreakMode="TailTruncation" />
+                                    </Grid>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Grid x:Name="ApiLoadingOverlay"
+                  IsVisible="False"
+                  InputTransparent="False"
+                  BackgroundColor="#80F8FAFC"
+                  ZIndex="10">
+                <Border Padding="22,20"
+                        BackgroundColor="White"
+                        Stroke="#D9E2EC"
+                        StrokeThickness="1"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="22"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <ActivityIndicator x:Name="ApiActivityIndicator"
+                                           IsVisible="False"
+                                           IsRunning="False"
+                                           Color="#16A34A"
+                                           WidthRequest="44"
+                                           HeightRequest="44"
+                                           HorizontalOptions="Center" />
+                        <Label Text="Chargement..."
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#0F172A"
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="Veuillez patienter"
+                               FontSize="11"
+                               TextColor="#64748B"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

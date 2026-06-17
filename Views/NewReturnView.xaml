@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AGRA_EASY_MOBILE"
+             x:Class="AGRA_EASY_MOBILE.NewReturnView"
+             Title="Nouveau retour"
+             BackgroundColor="#F6F8FB">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="14,12,14,22" Spacing="14">
+                <Border BackgroundColor="#EAF6FF" StrokeThickness="0" Padding="18,16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="22" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Nouveau retour"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="#0F172A" />
+                        <Label Text="Préparez votre panier de retour, ajoutez les articles concernés, puis validez le retour."
+                               FontSize="13"
+                               TextColor="#64748B" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="{Binding BasketButtonText}"
+                        Clicked="OnOpenBasketClicked"
+                        BackgroundColor="#0F766E"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="16"
+                        HeightRequest="50" />
+
+                <Border IsVisible="{Binding HasPageError}"
+                        BackgroundColor="#FEF2F2"
+                        Stroke="#FECACA"
+                        StrokeThickness="1"
+                        Padding="14,12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16" />
+                    </Border.StrokeShape>
+                    <Label Text="{Binding PageMessage}"
+                           TextColor="#B91C1C"
+                           FontAttributes="Bold"
+                           FontSize="13" />
+                </Border>
+
+                <Border IsVisible="{Binding CanEditAccount}" BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="14,12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Client"
+                               TextColor="#16A34A"
+                               FontAttributes="Bold"
+                               FontSize="18" />
+
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10" IsVisible="{Binding CanEditAccount}">
+                            <Border Grid.Column="0" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#F8FAFC" Padding="12,0" HeightRequest="48">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <local:BorderlessEntry x:Name="EntryAccountCode"
+                                                       Placeholder="Code client"
+                                                       Text="{Binding AccountCodeInput}"
+                                                       TextColor="#0F172A"
+                                                       PlaceholderColor="#94A3B8"
+                                                       HorizontalOptions="FillAndExpand"
+                                                       VerticalOptions="Center"
+                                                       HeightRequest="48"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center"
+                                                       ReturnType="Done"
+                                                       Completed="OnAccountCodeEntryCompleted"
+                                                       Unfocused="OnAccountCodeEntryUnfocused" />
+                            </Border>
+
+                            <Button Grid.Column="1"
+                                    Text="Choisir"
+                                    Clicked="OnValidateAccountClicked"
+                                    BackgroundColor="#16A34A"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    CornerRadius="14"
+                                    HeightRequest="48"
+                                    Padding="18,0" />
+                        </Grid>
+
+                        <Border IsVisible="{Binding HasSelectedAccount}" BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeThickness="1" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding SelectedAccountTitle}"
+                                       FontAttributes="Bold"
+                                       TextColor="#0F172A"
+                                       FontSize="15" />
+                                <Label Text="{Binding SelectedAccountAddress}"
+                                       IsVisible="{Binding HasSelectedAccountAddress}"
+                                       TextColor="#64748B"
+                                       FontSize="12" />
+                                <Label Text="{Binding SelectedAccountCity}"
+                                       IsVisible="{Binding HasSelectedAccountCity}"
+                                       TextColor="#64748B"
+                                       FontSize="12" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="14,12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Recherche article"
+                               TextColor="#16A34A"
+                               FontAttributes="Bold"
+                               FontSize="18" />
+
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <Border Grid.Column="0" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#F8FAFC" Padding="12,0" HeightRequest="48">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <local:BorderlessEntry x:Name="EntryProduct"
+                                                       Placeholder="Référence article"
+                                                       Text="{Binding ProductSearchText}"
+                                                       TextColor="#0F172A"
+                                                       PlaceholderColor="#94A3B8"
+                                                       HorizontalOptions="FillAndExpand"
+                                                       VerticalOptions="Center"
+                                                       HeightRequest="48"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center"
+                                                       ReturnType="Search"
+                                                       Completed="OnProductEntryCompleted"
+                                                       Unfocused="OnProductEntryUnfocused" />
+                            </Border>
+
+                            <Button Grid.Column="1"
+                                    Text="Rechercher"
+                                    Clicked="OnSearchProductClicked"
+                                    BackgroundColor="#2563EB"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    CornerRadius="14"
+                                    HeightRequest="48"
+                                    Padding="14,0" />
+                        </Grid>
+
+                        <Label Text="{Binding ProductMessage}"
+                               IsVisible="{Binding HasProductMessage}"
+                               TextColor="#B91C1C"
+                               FontSize="13" />
+
+                        <CollectionView ItemsSource="{Binding ReturnableArticles}"
+                                        IsVisible="{Binding HasArticleChoices}"
+                                        SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="0,4" Padding="12,10" Stroke="#E2E8F0" StrokeThickness="1" BackgroundColor="#F8FAFC">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="14" />
+                                        </Border.StrokeShape>
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                            <VerticalStackLayout Spacing="3">
+                                                <Label Text="{Binding ProductCode}"
+                                                       FontAttributes="Bold"
+                                                       FontSize="14"
+                                                       TextColor="#0F172A" />
+                                                <Label Text="{Binding ProductLabel}"
+                                                       FontSize="12"
+                                                       TextColor="#64748B"
+                                                       LineBreakMode="TailTruncation" />
+                                                <Label Text="{Binding SupplierName}"
+                                                       FontSize="11"
+                                                       TextColor="#94A3B8"
+                                                       LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+                                            <Button Grid.Column="1"
+                                                    Text="Choisir"
+                                                    CommandParameter="{Binding .}"
+                                                    Clicked="OnArticleSelectedClicked"
+                                                    BackgroundColor="#16A34A"
+                                                    TextColor="White"
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    CornerRadius="12"
+                                                    Padding="12,0" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border IsVisible="{Binding HasDeliveryLines}" BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="14,12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Livraisons retournables"
+                               TextColor="#16A34A"
+                               FontAttributes="Bold"
+                               FontSize="18" />
+
+                        <CollectionView ItemsSource="{Binding DeliveryLines}"
+                                        SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="0,4" Padding="12,10" Stroke="#E2E8F0" StrokeThickness="1" BackgroundColor="#F8FAFC">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="14" />
+                                        </Border.StrokeShape>
+                                        <Grid ColumnDefinitions="*,*,76"
+                                              RowDefinitions="Auto,Auto,Auto,Auto"
+                                              ColumnSpacing="8"
+                                              RowSpacing="6">
+                                            <Label Grid.Row="0"
+                                                   Grid.Column="0"
+                                                   Text="{Binding Reference}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="12"
+                                                   TextColor="#0F172A"
+                                                   LineBreakMode="TailTruncation" />
+                                            <Grid Grid.Row="0"
+                                                  Grid.Column="1"
+                                                  Grid.ColumnSpan="2"
+                                                  ColumnDefinitions="Auto,*,Auto"
+                                                  ColumnSpacing="8"
+                                                  HorizontalOptions="FillAndExpand">
+                                                <Label Grid.Column="0"
+                                                       Text="{Binding DeliveryNumber, StringFormat='BL : {0}'}"
+                                                       FontSize="10"
+                                                       TextColor="#334155"
+                                                       LineBreakMode="TailTruncation"
+                                                       HorizontalTextAlignment="Start"
+                                                       VerticalOptions="Center" />
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding Warehouse}"
+                                                       FontSize="10"
+                                                       TextColor="#334155"
+                                                       Margin="12,0,0,0"
+                                                       LineBreakMode="TailTruncation"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalOptions="Center" />
+                                                <Label Grid.Column="2"
+                                                       Text="{Binding DeliveryDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                                       FontSize="10"
+                                                       TextColor="#64748B"
+                                                       LineBreakMode="TailTruncation"
+                                                       HorizontalTextAlignment="End"
+                                                       VerticalOptions="Center" />
+                                            </Grid>
+
+                                            <Label Grid.Row="1"
+                                                   Grid.Column="0"
+                                                   Text="{Binding DisplayAbattement}"
+                                                   FontSize="11"
+                                                   TextColor="#16A34A"
+                                                   FontAttributes="Bold" />
+                                            <Label Grid.Row="1"
+                                                   Grid.Column="1"
+                                                   Text="{Binding DeliveredQuantity, StringFormat='Livré : {0}'}"
+                                                   FontSize="11"
+                                                   TextColor="#64748B"
+                                                   LineBreakMode="TailTruncation"
+                                                   HorizontalTextAlignment="Start" />
+                                            <Button Grid.Row="1"
+                                                    Grid.RowSpan="2"
+                                                    Grid.Column="2"
+                                                    Text="Choisir"
+                                                    CommandParameter="{Binding .}"
+                                                    Clicked="OnDeliveryLineSelectedClicked"
+                                                    BackgroundColor="#16A34A"
+                                                    TextColor="White"
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    CornerRadius="12"
+                                                    Padding="0"
+                                                    WidthRequest="76"
+                                                    HorizontalOptions="End"
+                                                    VerticalOptions="Fill" />
+
+                                            <Label Grid.Row="2"
+                                                   Grid.Column="0"
+                                                   Text="{Binding Price, StringFormat='Prix : {0}'}"
+                                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:NewReturnView}}, Path=ShowSaleConditions}"
+                                                   FontSize="11"
+                                                   TextColor="#64748B" />
+                                            <Label Grid.Row="2"
+                                                   Grid.Column="1"
+                                                   Text="{Binding ReturnedQuantity, StringFormat='Retourné : {0}'}"
+                                                   FontSize="11"
+                                                   TextColor="#64748B"
+                                                   LineBreakMode="TailTruncation"
+                                                   HorizontalTextAlignment="Start" />
+
+                                            <Label Grid.Row="3"
+                                                   Grid.Column="0"
+                                                   Text="{Binding Discount, StringFormat='Remise : {0}'}"
+                                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:NewReturnView}}, Path=ShowSaleConditions}"
+                                                   FontSize="11"
+                                                   TextColor="#64748B" />
+                                            <Label Grid.Row="3"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="2"
+                                                   Text="{Binding SorderClientCode, StringFormat='Compte : {0}'}"
+                                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:NewReturnView}}, Path=HasDepotSupplier}"
+                                                   FontSize="11"
+                                                   TextColor="#64748B"
+                                                   LineBreakMode="TailTruncation"
+                                                   HorizontalTextAlignment="Start" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border IsVisible="{Binding HasSelectedDeliveryLine}" BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="14,12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Ajouter au panier"
+                               TextColor="#16A34A"
+                               FontAttributes="Bold"
+                               FontSize="18" />
+
+                        <Border BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeThickness="1" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding SelectedDeliveryTitle}"
+                                       FontAttributes="Bold"
+                                       FontSize="14"
+                                       TextColor="#0F172A" />
+                                <Label Text="{Binding SelectedDeliveryDetail}"
+                                       FontSize="12"
+                                       TextColor="#64748B" />
+                                <Label Text="{Binding AvailableQuantityText}"
+                                       FontAttributes="Bold"
+                                       FontSize="13"
+                                       TextColor="#16A34A" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#F8FAFC" Padding="12,0" HeightRequest="48">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <local:BorderlessEntry x:Name="EntryQuantity"
+                                                   Keyboard="Numeric"
+                                                   Placeholder="Quantité à retourner"
+                                                   Text="{Binding QuantityText}"
+                                                   TextColor="#0F172A"
+                                                   PlaceholderColor="#94A3B8"
+                                                   HorizontalOptions="FillAndExpand"
+                                                   VerticalOptions="Center"
+                                                   HeightRequest="48"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalTextAlignment="Center" />
+                        </Border>
+
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8" VerticalOptions="Center">
+                            <CheckBox x:Name="CheckGarantie"
+                                      IsChecked="{Binding IsGarantie}"
+                                      CheckedChanged="OnGarantieChanged"
+                                      Color="#16A34A" />
+                            <Label Grid.Column="1"
+                                   Text="Garantie"
+                                   VerticalOptions="Center"
+                                   TextColor="#0F172A"
+                                   FontAttributes="Bold" />
+                        </Grid>
+
+                        <Border IsVisible="{Binding IsGarantie}" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#F8FAFC" Padding="12,0" HeightRequest="48">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <local:BorderlessEntry x:Name="EntryMotif"
+                                                   Placeholder="Motif"
+                                                   Text="{Binding MotifText}"
+                                                   TextColor="#0F172A"
+                                                   PlaceholderColor="#94A3B8"
+                                                   HorizontalOptions="FillAndExpand"
+                                                   VerticalOptions="Center"
+                                                   HeightRequest="48"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalTextAlignment="Center" />
+                        </Border>
+
+                        <Border IsVisible="{Binding ShowSaleConditions}" BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeThickness="1" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                                <Label Text="{Binding SelectedPrice, StringFormat='Prix : {0}'}" FontSize="12" TextColor="#64748B" />
+                                <Label Grid.Column="1" Text="{Binding SelectedDiscount, StringFormat='Remise : {0}'}" FontSize="12" TextColor="#64748B" HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="2" Text="{Binding SelectedAbattement, StringFormat='Abatt. : {0}'}" FontSize="12" TextColor="#64748B" HorizontalTextAlignment="End" />
+                            </Grid>
+                        </Border>
+
+                        <Button Text="Ajouter au panier"
+                                Clicked="OnAddBasketLineClicked"
+                                BackgroundColor="#16A34A"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="16"
+                                HeightRequest="50" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+
+
+        <Grid x:Name="ApiLoadingOverlay"
+              IsVisible="False"
+              BackgroundColor="#66000000">
+            <Border BackgroundColor="White" Padding="22" HorizontalOptions="Center" VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <ActivityIndicator x:Name="ApiActivityIndicator"
+                                       IsRunning="False"
+                                       Color="#16A34A"
+                                       WidthRequest="42"
+                                       HeightRequest="42" />
+                    <Label Text="Chargement..."
+                           FontAttributes="Bold"
+                           TextColor="#0F172A"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <Grid x:Name="ConfirmationOverlay"
+              IsVisible="{Binding IsConfirmationVisible}"
+              BackgroundColor="#99000000">
+            <Border BackgroundColor="White"
+                    Stroke="#E2E8F0"
+                    StrokeThickness="1"
+                    Padding="20,18"
+                    Margin="24"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="22" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="14" WidthRequest="310">
+                    <Label Text="{Binding ConfirmationTitle}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#0F172A" />
+                    <Label Text="{Binding ConfirmationMessage}"
+                           FontSize="14"
+                           TextColor="#475569"
+                           LineBreakMode="WordWrap" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,4,0,0">
+                        <Button IsVisible="{Binding IsConfirmationCancelVisible}"
+                                Text="{Binding ConfirmationCancelText}"
+                                Clicked="OnConfirmationCancelClicked"
+                                BackgroundColor="#E2E8F0"
+                                TextColor="#0F172A"
+                                FontAttributes="Bold"
+                                CornerRadius="14"
+                                HeightRequest="46" />
+                        <Button Grid.Column="1"
+                                Text="{Binding ConfirmationAcceptText}"
+                                Clicked="OnConfirmationAcceptClicked"
+                                BackgroundColor="#16A34A"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="14"
+                                HeightRequest="46" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

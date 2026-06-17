@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AGRA_EASY_MOBILE.TrackingWebViewPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#0F172A">
+
+    <Grid RowDefinitions="*">
+        <WebView x:Name="TrackingWebView"
+                 Grid.Row="0"
+                 Navigating="OnWebViewNavigating"
+                 Navigated="OnWebViewNavigated" />
+
+        <Grid x:Name="LoadingOverlay"
+              IsVisible="True"
+              BackgroundColor="#CC0F172A"
+              InputTransparent="False">
+            <Border Padding="22,20"
+                    BackgroundColor="White"
+                    Stroke="#D9E2EC"
+                    StrokeThickness="1"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="22" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <ActivityIndicator x:Name="LoadingIndicator"
+                                       IsRunning="True"
+                                       Color="#2563EB"
+                                       WidthRequest="44"
+                                       HeightRequest="44" />
+                    <Label Text="Chargement du suivi..."
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="#334155"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <Border BackgroundColor="#DC2626"
+                StrokeThickness="0"
+                WidthRequest="48"
+                HeightRequest="48"
+                Padding="0"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                Margin="0,18,18,0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="24" />
+            </Border.StrokeShape>
+            <Button Text="✕"
+                    Clicked="OnCloseClicked"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    Padding="0"
+                    WidthRequest="48"
+                    HeightRequest="48" />
+        </Border>
+    </Grid>
+</ContentPage>

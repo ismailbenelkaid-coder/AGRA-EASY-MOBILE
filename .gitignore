@@ -1,0 +1,35 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio / Rider / VS Code local state
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# .NET / MAUI generated files
+*.binlog
+*.nupkg
+*.snupkg
+TestResults/
+artifacts/
+
+# Apple signing material and local publishing output
+*.p12
+*.mobileprovision
+*.cer
+*.ipa
+*.xcarchive/
+
+# Android signing material
+*.keystore
+*.jks
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

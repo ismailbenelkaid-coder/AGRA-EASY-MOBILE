@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AGRA_EASY_MOBILE"
+             x:Class="AGRA_EASY_MOBILE.ReturnBasketView"
+             Title="Panier retour"
+             BackgroundColor="#F6F8FB">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="14,12,14,22" Spacing="14">
+                <Border BackgroundColor="#EAF6FF" StrokeThickness="0" Padding="18,16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="22" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Panier retour"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#0F172A" />
+                            <Label Text="Consultez les lignes du panier, validez le retour, puis affichez le PDF."
+                                   FontSize="13"
+                                   TextColor="#64748B" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1"
+                                Text="Fermer"
+                                Clicked="OnCloseClicked"
+                                BackgroundColor="#E2E8F0"
+                                TextColor="#0F172A"
+                                FontAttributes="Bold"
+                                CornerRadius="14"
+                                HeightRequest="44"
+                                Padding="14,0"
+                                VerticalOptions="Start" />
+                    </Grid>
+                </Border>
+
+                <Border IsVisible="{Binding CanEditAccount}" BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="14,12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Client affecté au panier"
+                               TextColor="#16A34A"
+                               FontAttributes="Bold"
+                               FontSize="18" />
+
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10" IsVisible="{Binding IsAccountSelectionEditable}">
+                            <Border Grid.Column="0" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#F8FAFC" Padding="12,0" HeightRequest="48">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <local:BorderlessEntry x:Name="EntryAccountCode"
+                                                       Placeholder="Code client"
+                                                       Text="{Binding AccountCodeInput}"
+                                                       TextColor="#0F172A"
+                                                       PlaceholderColor="#94A3B8"
+                                                       HorizontalOptions="FillAndExpand"
+                                                       VerticalOptions="Center"
+                                                       HeightRequest="48"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center"
+                                                       ReturnType="Done"
+                                                       Completed="OnAccountCodeEntryCompleted"
+                                                       Unfocused="OnAccountCodeEntryUnfocused" />
+                            </Border>
+
+                            <Button Grid.Column="1"
+                                    Text="Choisir"
+                                    Clicked="OnValidateAccountClicked"
+                                    BackgroundColor="#16A34A"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    CornerRadius="14"
+                                    HeightRequest="48"
+                                    Padding="18,0" />
+                        </Grid>
+
+                        <Border IsVisible="{Binding HasAssignedAccount}" BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeThickness="1" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding SelectedAccountTitle}"
+                                       FontAttributes="Bold"
+                                       TextColor="#0F172A"
+                                       FontSize="15" />
+                                <Label Text="{Binding AccountSelectionLockedText}"
+                                       IsVisible="{Binding IsAccountSelectionLocked}"
+                                       TextColor="#64748B"
+                                       FontSize="12" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Label Text="Aucun client affecté au panier retour."
+                               IsVisible="{Binding HasNoAssignedAccount}"
+                               TextColor="#64748B"
+                               FontSize="13" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="14,12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <Label Text="Lignes du panier"
+                                   TextColor="#16A34A"
+                                   FontAttributes="Bold"
+                                   FontSize="18" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding BasketCountText}"
+                                   FontSize="12"
+                                   TextColor="#64748B"
+                                   VerticalOptions="Center" />
+                        </Grid>
+
+                        <Label Text="Le panier est vide."
+                               IsVisible="{Binding IsBasketEmpty}"
+                               TextColor="#64748B"
+                               FontSize="13" />
+
+                        <CollectionView ItemsSource="{Binding BasketLines}"
+                                        IsVisible="{Binding HasBasketLines}"
+                                        SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="0,4" Padding="12,10" Stroke="#E2E8F0" StrokeThickness="1" BackgroundColor="#F8FAFC">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="14" />
+                                        </Border.StrokeShape>
+                                        <VerticalStackLayout Spacing="8">
+                                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                                <VerticalStackLayout Spacing="3">
+                                                    <Label Text="{Binding ProductCode}"
+                                                           FontAttributes="Bold"
+                                                           FontSize="14"
+                                                           TextColor="#0F172A" />
+                                                    <Label Text="{Binding ProductLabel}"
+                                                           FontSize="12"
+                                                           TextColor="#64748B"
+                                                           LineBreakMode="TailTruncation" />
+                                                </VerticalStackLayout>
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding Quantity, StringFormat='Qté : {0}'}"
+                                                       FontAttributes="Bold"
+                                                       FontSize="13"
+                                                       TextColor="#16A34A" />
+                                            </Grid>
+
+                                            <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="8">
+                                                <Label Grid.Column="0"
+                                                       Text="{Binding DeliveryNumber, StringFormat='BL : {0}'}"
+                                                       FontSize="12"
+                                                       TextColor="#64748B"
+                                                       LineBreakMode="TailTruncation" />
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding Warehouse}"
+                                                       FontSize="12"
+                                                       TextColor="#64748B"
+                                                       HorizontalTextAlignment="Center"
+                                                       LineBreakMode="TailTruncation" />
+                                                <Label Grid.Column="2"
+                                                       Text="{Binding DeliveryDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                                       FontSize="12"
+                                                       TextColor="#64748B"
+                                                       HorizontalTextAlignment="End" />
+                                            </Grid>
+
+                                            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8" IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:ReturnBasketView}}, Path=ShowSaleConditions}">
+                                                <Label Text="{Binding Price, StringFormat='Prix : {0}'}"
+                                                       FontSize="12"
+                                                       TextColor="#64748B" />
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding Discount, StringFormat='Remise : {0}'}"
+                                                       FontSize="12"
+                                                       TextColor="#64748B"
+                                                       HorizontalTextAlignment="Center" />
+                                                <Label Grid.Column="2"
+                                                       Text="{Binding Abattement, StringFormat='Abatt. : {0}'}"
+                                                       FontSize="12"
+                                                       TextColor="#64748B"
+                                                       HorizontalTextAlignment="End" />
+                                            </Grid>
+
+                                            <Button Text="Supprimer"
+                                                    CommandParameter="{Binding .}"
+                                                    Clicked="OnDeleteBasketLineClicked"
+                                                    BackgroundColor="#FEE2E2"
+                                                    TextColor="#B91C1C"
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    CornerRadius="12"
+                                                    HeightRequest="40" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border IsVisible="{Binding HasValidationSection}" BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="14,12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Validation"
+                               TextColor="#16A34A"
+                               FontAttributes="Bold"
+                               FontSize="18" />
+
+                        <Border IsVisible="{Binding HasBasketLines}" Stroke="#CBD5E1" StrokeThickness="1" BackgroundColor="#F8FAFC" Padding="12,0" HeightRequest="48">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <local:BorderlessEntry x:Name="EntryReturnClientCode"
+                                                   Placeholder="Code retour client"
+                                                   Text="{Binding ReturnClientCodeText}"
+                                                   TextColor="#0F172A"
+                                                   PlaceholderColor="#94A3B8"
+                                                   HorizontalOptions="FillAndExpand"
+                                                   VerticalOptions="Center"
+                                                   HeightRequest="48"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalTextAlignment="Center" />
+                        </Border>
+
+                        <Button IsVisible="{Binding HasBasketLines}"
+                                Text="Valider le retour"
+                                Clicked="OnValidateReturnClicked"
+                                BackgroundColor="#16A34A"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="16"
+                                HeightRequest="52" />
+
+                        <Border IsVisible="{Binding HasValidatedReturn}" BackgroundColor="#F0FDF4" Stroke="#BBF7D0" StrokeThickness="1" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="{Binding ValidatedReturnMessage}"
+                                       FontAttributes="Bold"
+                                       FontSize="13"
+                                       TextColor="#166534" />
+                                <Button Text="Afficher le PDF du retour"
+                                        Clicked="OnOpenValidatedReturnPdfClicked"
+                                        BackgroundColor="#2563EB"
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        CornerRadius="14"
+                                        HeightRequest="44" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid x:Name="ApiLoadingOverlay"
+              IsVisible="False"
+              BackgroundColor="#66000000">
+            <Border BackgroundColor="White" Padding="22" HorizontalOptions="Center" VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <ActivityIndicator x:Name="ApiActivityIndicator"
+                                       IsRunning="False"
+                                       Color="#16A34A"
+                                       WidthRequest="42"
+                                       HeightRequest="42" />
+                    <Label Text="Chargement..."
+                           FontAttributes="Bold"
+                           TextColor="#0F172A"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <Grid x:Name="ConfirmationOverlay"
+              IsVisible="{Binding IsConfirmationVisible}"
+              BackgroundColor="#99000000">
+            <Border BackgroundColor="White"
+                    Stroke="#E2E8F0"
+                    StrokeThickness="1"
+                    Padding="20,18"
+                    Margin="24"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="22" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="14" WidthRequest="310">
+                    <Label Text="{Binding ConfirmationTitle}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#0F172A" />
+                    <Label Text="{Binding ConfirmationMessage}"
+                           FontSize="14"
+                           TextColor="#475569"
+                           LineBreakMode="WordWrap" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,4,0,0">
+                        <Button IsVisible="{Binding IsConfirmationCancelVisible}"
+                                Text="{Binding ConfirmationCancelText}"
+                                Clicked="OnConfirmationCancelClicked"
+                                BackgroundColor="#E2E8F0"
+                                TextColor="#0F172A"
+                                FontAttributes="Bold"
+                                CornerRadius="14"
+                                HeightRequest="46" />
+                        <Button Grid.Column="1"
+                                Text="{Binding ConfirmationAcceptText}"
+                                Clicked="OnConfirmationAcceptClicked"
+                                BackgroundColor="#16A34A"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="14"
+                                HeightRequest="46" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

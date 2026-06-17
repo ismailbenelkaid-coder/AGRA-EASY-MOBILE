@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
+    <TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">$(TargetFrameworks);net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>AGRA_EASY_MOBILE</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <MauiXamlInflator>SourceGen</MauiXamlInflator>
+    <ApplicationTitle>AGRA-EASY-MOBILE</ApplicationTitle>
+    <ApplicationId>fr.groupeagra.easymobile</ApplicationId>
+    <ApplicationDisplayVersion>0.96</ApplicationDisplayVersion>
+    <ApplicationVersion>96</ApplicationVersion>
+    <Version>0.96</Version>
+    <PackageVersion>0.96</PackageVersion>
+    <WindowsPackageType>None</WindowsPackageType>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+    <Platforms>AnyCPU;ARM64</Platforms>
+    <AndroidStoreUncompressedFileExtensions>.arsc;$(AndroidStoreUncompressedFileExtensions)</AndroidStoreUncompressedFileExtensions>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net10.0-android'">
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+  </PropertyGroup>
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+    <MauiSplashScreen Include="Resources\Splash\drop_network_splash.png" Color="#FFFFFF" BaseSize="1080,1080" />
+    <MauiImage Include="Resources\Images\*" />
+    <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+    <MauiFont Include="Resources\Fonts\*" />
+    <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.51" />
+    <PackageReference Include="CommunityToolkit.Maui" Version="14.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.7" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.7" />
+    <PackageReference Include="BarcodeScanning.Native.Maui" Version="3.0.3" />
+  </ItemGroup>
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' Or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    <PackageReference Include="Eightbot.MauiNativePdfView" Version="1.0.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\ExpeditionFilterView.xaml.cs">
+      <DependentUpon>ExpeditionFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RefusedReturnListView.xaml.cs">
+      <DependentUpon>RefusedReturnListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RefusedReturnImageView.xaml.cs">
+      <DependentUpon>RefusedReturnImageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SupplierRefundView.xaml.cs">
+      <DependentUpon>SupplierRefundView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TrackReturnView.xaml.cs">
+      <DependentUpon>TrackReturnView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NewReturnView.xaml.cs">
+      <DependentUpon>NewReturnView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NotificationsView.xaml.cs">
+      <DependentUpon>NotificationsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RefundInvoiceListView.xaml.cs">
+      <DependentUpon>RefundInvoiceListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ShippingCostListView.xaml.cs">
+      <DependentUpon>ShippingCostListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ShippingCostFilterView.xaml.cs">
+      <DependentUpon>ShippingCostFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InvoiceWaitingListView.xaml.cs">
+      <DependentUpon>InvoiceWaitingListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CustomerBillingListView.xaml.cs">
+      <DependentUpon>CustomerBillingListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CustomerBillingFilterView.xaml.cs">
+      <DependentUpon>CustomerBillingFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RuptureListView.xaml.cs">
+      <DependentUpon>RuptureListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\DeliveryListView.xaml.cs">
+      <DependentUpon>DeliveryListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\OrderListView.xaml.cs">
+      <DependentUpon>OrderListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ContainerListView.xaml.cs">
+      <DependentUpon>ContainerListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PdfViewerPage.xaml.cs">
+      <DependentUpon>PdfViewerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TrackingWebViewPage.xaml.cs">
+      <DependentUpon>TrackingWebViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ReturnFilterView.xaml.cs">
+      <DependentUpon>ReturnFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ReturnListView.xaml.cs">
+      <DependentUpon>ReturnListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ReturnBasketView.xaml.cs">
+      <DependentUpon>ReturnBasketView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ShippingWarningListView.xaml.cs">
+      <DependentUpon>ShippingWarningListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ShippingWarningFilterView.xaml.cs">
+      <DependentUpon>ShippingWarningFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ShippingWarningDetailView.xaml.cs">
+      <DependentUpon>ShippingWarningDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\BarcodeScannerPage.xaml.cs">
+      <DependentUpon>BarcodeScannerPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <MauiXaml Update="Views\ExpeditionFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\RefusedReturnListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\RefusedReturnImageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\LoginView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\SupplierRefundView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\TrackReturnView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\NewReturnView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\NotificationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\RefundInvoiceListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ShippingCostListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ShippingCostFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\InvoiceWaitingListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\CustomerBillingListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\CustomerBillingFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\RuptureListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\DeliveryListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\OrderListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ContainerListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\PdfViewerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\TrackingWebViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ReturnFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ReturnListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ReturnBasketView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ShippingWarningListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ShippingWarningFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ShippingWarningDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\BarcodeScannerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Http" Version="10.0.652802" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="10.0.652802" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="10.0.652802" />
+  </ItemGroup>
+</Project>

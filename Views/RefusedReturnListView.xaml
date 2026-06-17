@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AGRA_EASY_MOBILE"
+             x:Class="AGRA_EASY_MOBILE.RefusedReturnListView"
+             Title="Retours refusés"
+             BackgroundColor="#F6F8FB">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ClientOrderCodeDisplayConverter x:Key="ClientOrderCodeDisplayConverter" />
+            <local:ClientOrderCodeInputTransparentConverter x:Key="ClientOrderCodeInputTransparentConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0" BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="0" Padding="10,8,10,6">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" VerticalOptions="Center">
+                <HorizontalStackLayout Grid.Column="0"
+                                       Spacing="5"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center">
+                    <Border Stroke="#D9E2EC"
+                            StrokeThickness="1"
+                            BackgroundColor="#F8FAFC"
+                            Padding="7,1"
+                            MinimumHeightRequest="36"
+                            VerticalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="13"/>
+                        </Border.StrokeShape>
+                        <Grid WidthRequest="132"
+
+                              HeightRequest="36"
+
+                              HorizontalOptions="Fill"
+
+                              VerticalOptions="Fill">
+
+                            <local:BorderlessPicker x:Name="PickerSortMode"
+
+                                Title="Tri"
+
+                                SelectedIndexChanged="OnSortModeChanged"
+
+                                FontSize="12"
+
+                                TextColor="#0F172A"
+
+                                TitleColor="#64748B"
+
+                                BackgroundColor="Transparent"
+
+                                    HorizontalOptions="Fill"
+
+                                    VerticalOptions="Fill"
+
+                                    Opacity="0.01" />
+
+                            <Label Text="{Binding Source={x:Reference PickerSortMode}, Path=SelectedItem}"
+
+                                   FontSize="12"
+
+                                   TextColor="#0F172A"
+
+                                   HorizontalOptions="Fill"
+
+                                   VerticalOptions="Fill"
+
+                                   HorizontalTextAlignment="Center"
+
+                                   VerticalTextAlignment="Center"
+
+                                   InputTransparent="True" />
+
+                        </Grid>
+                    </Border>
+
+                    <Border IsVisible="{Binding ShowSortDirection}"
+                            Stroke="#D9E2EC"
+                            StrokeThickness="1"
+                            BackgroundColor="#F8FAFC"
+                            Padding="0"
+                            WidthRequest="38"
+                            MinimumHeightRequest="36"
+                            VerticalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="13"/>
+                        </Border.StrokeShape>
+                        <Button Text="{Binding SortDirectionIcon}"
+                                Clicked="OnSortDirectionToggleClicked"
+                                BackgroundColor="Transparent"
+                                TextColor="#0F172A"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Padding="0"
+                                HeightRequest="34"
+                                WidthRequest="36" />
+                    </Border>
+                </HorizontalStackLayout>
+
+                <Border Grid.Column="1"
+                        Stroke="#D9E2EC"
+                        StrokeThickness="1"
+                        BackgroundColor="#F8FAFC"
+                        Padding="8,5"
+                        MinimumHeightRequest="36"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="13"/>
+                    </Border.StrokeShape>
+                    <Button Text="Filtre"
+                            Clicked="OnOpenFilterClicked"
+                            BackgroundColor="Transparent"
+                            TextColor="#0F172A"
+                            FontSize="12"
+                            FontAttributes="Bold"
+                            Padding="0"
+                            HeightRequest="24" />
+                </Border>
+            </Grid>
+        </Border>
+
+        <CollectionView x:Name="RefusedReturnCollection" Grid.Row="1" Margin="12,8,12,12">
+            <CollectionView.EmptyView>
+                <Label Text="Aucun retour refusé à afficher."
+                       FontSize="13"
+                       TextColor="#64748B"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       Margin="20" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,4" Padding="14,12" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18"/>
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="8">
+                                <Label Grid.Column="0"
+                                       Text="{Binding RefusedReturnLineCode, StringFormat='Refus {0}'}"
+                                       FontAttributes="Bold"
+                                       FontSize="15"
+                                       TextColor="#DC2626"
+                                       VerticalOptions="Center"
+                                       LineBreakMode="TailTruncation" />
+
+                                <HorizontalStackLayout Grid.Column="1"
+                                                       Spacing="4"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center">
+                                    <Border StrokeThickness="0"
+                                            BackgroundColor="#EEF7FF"
+                                            Padding="8,4"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Center">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding Warehouse}"
+                                               FontSize="11"
+                                               TextColor="#2563EB"
+                                               HorizontalTextAlignment="Center"
+                                               LineBreakMode="NoWrap" />
+                                    </Border>
+
+                                    <Border IsVisible="{Binding CanUploadPictureForCurrentWarehouse}"
+                                            BackgroundColor="#ECFDF5"
+                                            StrokeThickness="0"
+                                            WidthRequest="26"
+                                            HeightRequest="26"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Center">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="9" />
+                                        </Border.StrokeShape>
+                                        <Image Source="ic_camera.svg"
+                                               WidthRequest="15"
+                                               HeightRequest="15"
+                                               Aspect="AspectFit"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnUploadPictureTapped" CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                </HorizontalStackLayout>
+
+                                <Label Grid.Column="2"
+                                       Text="{Binding CreationDate, StringFormat='{0:dd/MM/yyyy HH:mm}'}"
+                                       FontSize="12"
+                                       TextColor="#64748B"
+                                       VerticalOptions="Center"
+                                       HorizontalTextAlignment="End"
+                                       LineBreakMode="NoWrap" />
+                            </Grid>
+
+                            <Label Text="{Binding DisplayAccount}"
+                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:RefusedReturnListView}}, Path=ShowAccountInfo}"
+                                   FontSize="13"
+                                   LineBreakMode="TailTruncation"
+                                   TextColor="#334155" />
+
+                            <BoxView HeightRequest="0.5" Color="#E5EAF0" />
+
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" Padding="0,2">
+                                <Label Grid.Column="0"
+                                       Text="{Binding ReturnCode, StringFormat='Retour : {0}'}"
+                                       FontSize="12"
+                                       FontAttributes="Bold"
+                                       TextColor="#0F172A"
+                                       HorizontalOptions="Start"
+                                       LineBreakMode="TailTruncation" />
+
+                                <Label Grid.Column="1"
+                                       Text="{Binding ProductCode}"
+                                       FontSize="12"
+                                       MinimumWidthRequest="150"
+                                       MaxLines="1"
+                                       FontAttributes="Bold"
+                                       TextColor="#DC2626"
+                                       HorizontalOptions="End"
+                                       HorizontalTextAlignment="End"
+                                       LineBreakMode="TailTruncation" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8" Padding="0,0,0,2">
+                                <Label Grid.Column="0"
+                                       Text="{Binding ReturnClientCode, Converter={StaticResource ClientOrderCodeDisplayConverter}, ConverterParameter=22}"
+                                       InputTransparent="{Binding ReturnClientCode, Converter={StaticResource ClientOrderCodeInputTransparentConverter}, ConverterParameter=22}"
+                                       FontAttributes="Bold"
+                                       FontSize="11"
+                                       TextColor="#16A34A"
+                                       LineBreakMode="TailTruncation"
+                                       VerticalOptions="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnReturnClientCodeTapped" CommandParameter="{Binding ReturnClientCode}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+
+                                <Button Grid.Column="1"
+                                        Text="…"
+                                        IsVisible="{Binding HasLongReturnClientCode}"
+                                        Clicked="OnReturnClientCodeButtonClicked"
+                                        CommandParameter="{Binding ReturnClientCode}"
+                                        BackgroundColor="#F1F5F9"
+                                        TextColor="#0F172A"
+                                        FontAttributes="Bold"
+                                        FontSize="12"
+                                        Padding="0"
+                                        WidthRequest="28"
+                                        HeightRequest="26"
+                                        CornerRadius="10" />
+
+                                <Label Grid.Column="2"
+                                       Text="{Binding DisplayQuantity, StringFormat='Qté : {0}'}"
+                                       FontSize="11"
+                                       FontAttributes="Bold"
+                                       TextColor="#0F172A"
+                                       HorizontalOptions="End"
+                                       HorizontalTextAlignment="End"
+                                       MinimumWidthRequest="64"
+                                       LineBreakMode="NoWrap"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <Border IsVisible="{Binding HasReasonOrPicture}"
+                                    Stroke="#CBD5E1"
+                                    StrokeThickness="1"
+                                    BackgroundColor="#F8FAFC"
+                                    Padding="8,4"
+                                    MinimumHeightRequest="54">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12" />
+                                </Border.StrokeShape>
+                                <Grid ColumnDefinitions="*,Auto"
+                                      RowDefinitions="22,22"
+                                      ColumnSpacing="6"
+                                      RowSpacing="0"
+                                      HeightRequest="44"
+                                      MinimumHeightRequest="44">
+                                    <Label Grid.Column="0"
+                                           Grid.Row="0"
+                                           Grid.RowSpan="2"
+                                           Text="{Binding Reason}"
+                                           FontSize="11"
+                                           TextColor="#64748B"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="2"
+                                           HorizontalTextAlignment="Start"
+                                           VerticalTextAlignment="Start"
+                                           VerticalOptions="Fill"
+                                           Margin="0,1,0,0" />
+
+                                    <Border Grid.Column="1"
+                                            Grid.Row="0"
+                                            IsVisible="{Binding HasPicturePath}"
+                                            BackgroundColor="#E0F2FE"
+                                            StrokeThickness="0"
+                                            WidthRequest="24"
+                                            HeightRequest="22"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Fill">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="8" />
+                                        </Border.StrokeShape>
+                                        <Image Source="ic_article_gallery.svg"
+                                               Aspect="AspectFit"
+                                               WidthRequest="16"
+                                               HeightRequest="16"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnShowImageTapped" CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                    </Border>
+
+                                    <Border Grid.Column="1"
+                                            Grid.Row="1"
+                                            IsVisible="{Binding HasReason}"
+                                            BackgroundColor="#F1F5F9"
+                                            StrokeThickness="0"
+                                            WidthRequest="24"
+                                            HeightRequest="22"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Fill">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="8" />
+                                        </Border.StrokeShape>
+                                        <Label Text="…"
+                                               TextColor="#0F172A"
+                                               FontAttributes="Bold"
+                                               FontSize="11"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnShowFullReasonTapped" CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid x:Name="ApiLoadingOverlay"
+              Grid.RowSpan="2"
+              IsVisible="False"
+              InputTransparent="False"
+              BackgroundColor="#80F8FAFC"
+              ZIndex="10">
+            <Border Padding="22,20"
+                    BackgroundColor="White"
+                    Stroke="#D9E2EC"
+                    StrokeThickness="1"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="22"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <ActivityIndicator x:Name="ApiActivityIndicator"
+                                       IsVisible="False"
+                                       IsRunning="False"
+                                       Color="#16A34A"
+                                       WidthRequest="44"
+                                       HeightRequest="44"
+                                       HorizontalOptions="Center" />
+                    <Label Text="Chargement..."
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="#0F172A"
+                           HorizontalTextAlignment="Center" />
+                    <Label Text="Veuillez patienter"
+                           FontSize="11"
+                           TextColor="#64748B"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>
