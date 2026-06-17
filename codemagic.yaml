@@ -1,0 +1,92 @@
+workflows:
+  maui-ios:
+    name: AGRA EASY MOBILE iOS
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+
+    # In Codemagic, create an App Store Connect API key integration named "codemagic-api"
+    # or change the value below to match the integration name you choose.
+    integrations:
+      app_store_connect: codemagic-api
+
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: fr.groupeagra.easymobile
+      vars:
+        DOTNET_VERSION: 10.0.300
+        DOTNET_PATH: $CM_BUILD_DIR/dotnet
+        DOTNET: $CM_BUILD_DIR/dotnet/dotnet
+        PROJECT_FILE: AGRA-EASY-MOBILE.csproj
+        BUNDLE_ID: fr.groupeagra.easymobile
+        APP_DISPLAY_VERSION: "0.96"
+        APP_STORE_APPLE_ID: ""
+
+    scripts:
+      - name: Install .NET SDK
+        script: |
+          wget https://dot.net/v1/dotnet-install.sh
+          chmod +x dotnet-install.sh
+          ./dotnet-install.sh --version "$DOTNET_VERSION" --install-dir "$DOTNET_PATH"
+          "$DOTNET" --info
+
+      - name: Install .NET MAUI iOS workload
+        script: |
+          "$DOTNET" nuget locals all --clear
+          "$DOTNET" workload install ios maui \
+            --source https://api.nuget.org/v3/index.json
+
+      - name: Restore packages
+        script: |
+          "$DOTNET" restore "$PROJECT_FILE" \
+            -p:TargetFramework=net10.0-ios \
+            -p:RuntimeIdentifier=ios-arm64
+
+      - name: Set iOS Info.plist values
+        script: |
+          PLIST="$CM_BUILD_DIR/Platforms/iOS/Info.plist"
+          PLIST_BUDDY=/usr/libexec/PlistBuddy
+          $PLIST_BUDDY -c "Delete :ITSAppUsesNonExemptEncryption" "$PLIST" || true
+          $PLIST_BUDDY -c "Add :ITSAppUsesNonExemptEncryption bool false" "$PLIST"
+
+      - name: Build signed iOS IPA
+        script: |
+          if [ -n "$APP_STORE_APPLE_ID" ]; then
+            LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID")
+          fi
+
+          if [ -z "$LATEST_BUILD_NUMBER" ]; then
+            UPDATED_BUILD_NUMBER=$BUILD_NUMBER
+          else
+            UPDATED_BUILD_NUMBER=$(($LATEST_BUILD_NUMBER + 1))
+          fi
+
+          CERT_NAME=$(keychain list-certificates | jq -r '.[0].common_name')
+          PROFILE_NAME=$(find ~/Library/MobileDevice/Provisioning\ Profiles -name "*.mobileprovision" -exec sh -c '/usr/libexec/PlistBuddy -c "Print :Name" /dev/stdin <<< "$(security cms -D -i "$1")"' _ {} \; | head -n 1)
+
+          "$DOTNET" publish "$PROJECT_FILE" \
+            -f net10.0-ios \
+            -c Release \
+            -p:BuildIpa=True \
+            -p:RuntimeIdentifier=ios-arm64 \
+            -p:ApplicationDisplayVersion="$APP_DISPLAY_VERSION" \
+            -p:ApplicationVersion="$UPDATED_BUILD_NUMBER" \
+            -p:CodesignKey="$CERT_NAME" \
+            -p:CodesignProvision="$PROFILE_NAME" \
+            -o "$CM_BUILD_DIR/artifacts"
+
+    artifacts:
+      - artifacts/*.ipa
+
+    publishing:
+      email:
+        recipients:
+          - ismail.benelkaid@gmail.com
+        notify:
+          success: true
+          failure: true
+
+      # Uncomment after the first successful signed build if you want Codemagic
+      # to upload the IPA to App Store Connect / TestFlight automatically.
+      # app_store_connect:
+      #   auth: integration
