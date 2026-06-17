@@ -20,7 +20,6 @@ workflows:
         PROJECT_FILE: AGRA-EASY-MOBILE.csproj
         BUNDLE_ID: fr.groupeagra.easymobile
         APP_DISPLAY_VERSION: "0.96"
-        APP_STORE_APPLE_ID: ""
 
     scripts:
       - name: Install .NET SDK
@@ -51,16 +50,7 @@ workflows:
 
       - name: Build signed iOS IPA
         script: |
-          if [ -n "$APP_STORE_APPLE_ID" ]; then
-            LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID")
-          fi
-
-          if [ -z "$LATEST_BUILD_NUMBER" ]; then
-            UPDATED_BUILD_NUMBER=$BUILD_NUMBER
-          else
-            UPDATED_BUILD_NUMBER=$(($LATEST_BUILD_NUMBER + 1))
-          fi
-
+          UPDATED_BUILD_NUMBER=$BUILD_NUMBER
           CERT_NAME=$(keychain list-certificates | jq -r '.[0].common_name')
           PROFILE_NAME=$(find ~/Library/MobileDevice/Provisioning\ Profiles -name "*.mobileprovision" -exec sh -c '/usr/libexec/PlistBuddy -c "Print :Name" /dev/stdin <<< "$(security cms -D -i "$1")"' _ {} \; | head -n 1)
 
