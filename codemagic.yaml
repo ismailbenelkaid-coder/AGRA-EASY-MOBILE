@@ -80,7 +80,5 @@ workflows:
           success: true
           failure: true
 
-      # Uncomment after the first successful signed build if you want Codemagic
-      # to upload the IPA to App Store Connect / TestFlight automatically.
-      # app_store_connect:
-      #   auth: integration
+      app_store_connect:
+        auth: integration
