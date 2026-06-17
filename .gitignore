@@ -19,6 +19,8 @@ TestResults/
 artifacts/
 
 # Apple signing material and local publishing output
+apple-signing-local/
+apple-signing-local/**
 *.p12
 *.mobileprovision
 *.cer

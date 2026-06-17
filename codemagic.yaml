@@ -33,7 +33,9 @@ workflows:
         script: |
           "$DOTNET" nuget locals all --clear
           "$DOTNET" workload install ios maui \
+            --skip-manifest-update \
             --source https://api.nuget.org/v3/index.json
+          "$DOTNET" workload list
 
       - name: Restore packages
         script: |
