@@ -10,6 +10,7 @@ workflows:
       app_store_connect: codemagic-api
 
     environment:
+      xcode: 26.0
       ios_signing:
         distribution_type: app_store
         bundle_identifier: fr.groupeagra.easymobile
@@ -24,6 +25,7 @@ workflows:
     scripts:
       - name: Install .NET SDK
         script: |
+          xcodebuild -version
           wget https://dot.net/v1/dotnet-install.sh
           chmod +x dotnet-install.sh
           ./dotnet-install.sh --version "$DOTNET_VERSION" --install-dir "$DOTNET_PATH"
