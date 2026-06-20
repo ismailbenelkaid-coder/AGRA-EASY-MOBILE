@@ -4,6 +4,6 @@
         <item name="maui_splash">true</item>
         <item name="android:windowBackground">@drawable/agra_splash_full</item>
         <item name="android:windowSplashScreenBackground">@android:color/white</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/drop_network_splash</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/drop_network_splash_icon</item>
     </style>
 </resources>
