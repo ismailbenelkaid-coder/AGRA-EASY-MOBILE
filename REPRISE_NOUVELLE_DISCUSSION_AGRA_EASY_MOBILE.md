@@ -83,6 +83,8 @@ Périmètre strict :
 17. Si l'utilisateur fournit une nouvelle version ZIP, cette version devient la nouvelle base opérationnelle.
 18. Ne jamais fournir de fichiers sources partiels, patchs, extraits de code ou correctifs isolés comme livrables téléchargeables ; livrer uniquement un ZIP complet du projet quand l'utilisateur le demande explicitement.
 19. Pour chaque demande planifiée ou en attente, fournir systématiquement un fichier de suivi téléchargeable séparé et intégrer ce même fichier dans le dossier projet.
+20. Le fichier généré `Connected Services/Services/Reference.cs` reste la base de référence obligatoire pour les signatures, types, classes, propriétés et paramètres du service web SOAP. Même si le wrapper applicatif `EasySession` est réorganisé, séparé par plateforme ou implémenté manuellement pour contourner une contrainte technique iOS/Android/Windows, il doit toujours être construit à partir des contrats présents dans `Reference.cs` et ne jamais inventer de signature, mapping ou type hors de cette référence. Après chaque régénération de `Reference.cs` côté serveur, les wrappers `EasySession` doivent être réalignés sur ce fichier généré.
+21. La classe SOAP manuelle utilisée pour iOS, notamment `Services/EasySoapManualClient.cs` et son intégration dans `Services/EasySession.cs`, doit toujours rester strictement alignée sur `Connected Services/Services/Reference.cs`. Après chaque régénération de `Reference.cs`, vérifier et réaligner les noms d'opérations, noms de paramètres, types retour, tableaux, objets complexes et ordre des propriétés XML utilisés par le SOAP manuel iOS. Le client manuel iOS est un contournement technique de la contrainte AOT/Reflection.Emit, pas une source de contrat indépendante.
 
 ## Documentation à maintenir
 
