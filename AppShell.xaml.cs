@@ -75,7 +75,7 @@ namespace AGRA_EASY_MOBILE
             if (AlertButtonShell == null)
                 return;
 
-            AlertButtonShell.ImageSource = ShippingWarningNotificationService.HasNewAlerts ? "bell_alert.svg" : "bell.svg";
+            AlertButtonShell.ImageSource = ShippingWarningNotificationService.HasNewAlerts ? "bell_alert.png" : "bell.png";
             AlertButtonShell.TextColor = ShippingWarningNotificationService.HasNewAlerts ? Color.FromArgb("#DC2626") : Color.FromArgb("#475569");
 
             if (ShippingWarningNotificationService.HasNewAlerts)

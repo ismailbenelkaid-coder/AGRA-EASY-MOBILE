@@ -131,7 +131,7 @@ namespace AGRA_EASY_MOBILE
 
             var basketButton = PrimaryButton("Panier (0 Pcs)");
             _basketButton = basketButton;
-            basketButton.Clicked += async (_, __) => await Shell.Current.GoToAsync("//orderBasket");
+            basketButton.Clicked += async (_, __) => await Navigation.PushAsync(new OrderBasketView(openedFromCatalogue: true));
             var optionsButton = SecondaryButton("Options");
             optionsButton.Clicked += async (_, __) => await RunServiceAsync(async () =>
             {

@@ -36,7 +36,7 @@ namespace AGRA_EASY_MOBILE
             if (AlertButtonHome == null)
                 return;
 
-            AlertButtonHome.Source = ShippingWarningNotificationService.HasNewAlerts ? "bell_alert.svg" : "bell.svg";
+            AlertButtonHome.Source = ShippingWarningNotificationService.HasNewAlerts ? "bell_alert.png" : "bell.png";
             if (ShippingWarningNotificationService.HasNewAlerts)
                 StartAlertAnimation();
             else

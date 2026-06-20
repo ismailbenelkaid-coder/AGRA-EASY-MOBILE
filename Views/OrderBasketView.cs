@@ -49,10 +49,12 @@ namespace AGRA_EASY_MOBILE
         private readonly HashSet<string> _quantityUpdateKeysInProgress = new(StringComparer.OrdinalIgnoreCase);
         private bool _preserveResponsesOnNextDisappearing;
         private bool _resetResponsesOnNextAppearing;
+        private readonly bool _openedFromCatalogue;
         private TaskCompletionSource<bool>? _confirmationCompletion;
 
-        public OrderBasketView()
+        public OrderBasketView(bool openedFromCatalogue = false)
         {
+            _openedFromCatalogue = openedFromCatalogue;
             Title = "Panier";
             BackgroundColor = Color.FromArgb("#F6F8FB");
             _sorderEntry.Completed += async (_, __) => await RefreshBasketAsync();
@@ -104,7 +106,7 @@ namespace AGRA_EASY_MOBILE
             root.Add(scroll);
 
             var catalogueButton = SecondaryButton("Catalogue");
-            catalogueButton.Clicked += async (_, __) => await Shell.Current.GoToAsync("//catalogue");
+            catalogueButton.Clicked += async (_, __) => await NavigateToCatalogueAsync();
 
             var deliveryOptionsButton = PrimaryButton("Option de livraison");
             deliveryOptionsButton.FontSize = 13;
@@ -192,6 +194,17 @@ namespace AGRA_EASY_MOBILE
             root.Add(_modalOverlay);
 
             Content = root;
+        }
+
+        private async Task NavigateToCatalogueAsync()
+        {
+            if (_openedFromCatalogue && Navigation.NavigationStack.Count > 1)
+            {
+                await Navigation.PopAsync();
+                return;
+            }
+
+            await Shell.Current.GoToAsync("//catalogue");
         }
 
         private View BuildShowAllPlatformsRow()
