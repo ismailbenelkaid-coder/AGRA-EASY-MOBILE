@@ -43,7 +43,6 @@ public partial class LoginView : ContentPage
 
     private async void OnSaveSettingsClicked(object sender, EventArgs e)
     {
-        var button = (Button)sender;
         SetConnectionLoading(true);
 
         var newLogin = EntryLogin.Text ?? string.Empty;
@@ -55,33 +54,59 @@ public partial class LoginView : ContentPage
         Preferences.Default.Remove("AutoReconnect");
         Preferences.Default.Remove("MaxAttempts");
 
+        string diagnosticToShow = string.Empty;
+        string alertMessage = string.Empty;
+        Color alertColor = Colors.Transparent;
+
         try
         {
             bool success = await EasySession.ValidateAndNavigateAsync();
 
             if (success)
             {
-                await ShowModernAlert("Connexion réussie.", Color.FromArgb("#00C569"));
+                alertMessage = "Connexion reussie.";
+                alertColor = Color.FromArgb("#00C569");
             }
             else
             {
-                await ShowModernAlert("Connexion impossible.", Colors.Red);
+                diagnosticToShow = EasySession.LastConnectionDiagnosticText;
+                alertMessage = "Connexion impossible.";
+                alertColor = Colors.Red;
             }
         }
         catch (Exception ex)
         {
-            await ShowModernAlert(ex.Message, Colors.Red);
+            diagnosticToShow = string.IsNullOrWhiteSpace(EasySession.LastConnectionDiagnosticText)
+                ? ex.ToString()
+                : EasySession.LastConnectionDiagnosticText;
+            alertMessage = ex.Message;
+            alertColor = Colors.Red;
         }
         finally
         {
             SetConnectionLoading(false);
         }
+
+        if (!string.IsNullOrWhiteSpace(diagnosticToShow))
+            await ConnectionDiagnosticPage.ShowAsync(this, diagnosticToShow);
+        else if (!string.IsNullOrWhiteSpace(alertMessage))
+            await ShowModernAlert(alertMessage, alertColor);
     }
 
+    private async void OnConnectionDiagnosticClicked(object sender, EventArgs e)
+    {
+        var userName = EntryLogin.Text ?? string.Empty;
+        var password = EntryPassword.Text ?? string.Empty;
+        var warehouse = PickerWarehouse.SelectedItem?.ToString() ?? "Meyzieu";
+        var useSecondaryLink = SwitchLinkType.IsToggled;
+
+        await ConnectionTestLabPage.ShowAsync(this, userName, password, warehouse, useSecondaryLink);
+    }
 
     private void SetConnectionLoading(bool isLoading)
     {
         SaveSettingsButton.IsEnabled = !isLoading;
+        ConnectionDiagnosticButton.IsEnabled = !isLoading;
         ConnectionLoadingOverlay.IsVisible = isLoading;
         ConnectionLoadingIndicator.IsRunning = isLoading;
     }

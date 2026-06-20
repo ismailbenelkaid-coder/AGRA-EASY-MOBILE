@@ -122,13 +122,22 @@
         </ScrollView>
 
         <Border Grid.Row="2" BackgroundColor="#F6F8FB" StrokeThickness="0" Padding="20,10,20,16">
-            <Button x:Name="SaveSettingsButton" Text="ENREGISTRER LE PROFIL"
-                    BackgroundColor="#16A34A"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    CornerRadius="18"
-                    HeightRequest="52"
-                    Clicked="OnSaveSettingsClicked" />
+            <VerticalStackLayout Spacing="10">
+                <Button x:Name="SaveSettingsButton" Text="ENREGISTRER LE PROFIL"
+                        BackgroundColor="#16A34A"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="18"
+                        HeightRequest="52"
+                        Clicked="OnSaveSettingsClicked" />
+                <Button x:Name="ConnectionDiagnosticButton" Text="DIAGNOSTIC CONNEXION IOS"
+                        BackgroundColor="#2563EB"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="18"
+                        HeightRequest="48"
+                        Clicked="OnConnectionDiagnosticClicked" />
+            </VerticalStackLayout>
         </Border>
         <Grid x:Name="ConnectionLoadingOverlay"
               IsVisible="False"
