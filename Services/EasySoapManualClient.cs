@@ -75,27 +75,27 @@ internal sealed class EasySoapManualClient : IDisposable
         var settings = new XmlWriterSettings
         {
             OmitXmlDeclaration = false,
+            ConformanceLevel = ConformanceLevel.Fragment,
             Encoding = Encoding.UTF8,
             Indent = false
         };
 
         var builder = new StringBuilder();
+        builder.Append("""<?xml version="1.0" encoding="utf-8"?>""");
+        builder.Append("""<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">""");
+        builder.Append("<soap:Body>");
+        builder.Append('<').Append(operation).Append(""" xmlns="http://groupe-agra/">""");
+
         using var textWriter = new Utf8StringWriter(builder);
         using var writer = XmlWriter.Create(textWriter, settings);
-        writer.WriteStartDocument();
-        writer.WriteStartElement("soap", "Envelope", "http://schemas.xmlsoap.org/soap/envelope/");
-        writer.WriteAttributeString("xmlns", "xsi", null, "http://www.w3.org/2001/XMLSchema-instance");
-        writer.WriteAttributeString("xmlns", "xsd", null, "http://www.w3.org/2001/XMLSchema");
-        writer.WriteStartElement("soap", "Body", "http://schemas.xmlsoap.org/soap/envelope/");
-        writer.WriteStartElement(operation, SoapNamespace);
 
         foreach (var parameter in parameters)
             WriteParameter(writer, parameter);
 
-        writer.WriteEndElement();
-        writer.WriteEndElement();
-        writer.WriteEndElement();
-        writer.WriteEndDocument();
+        writer.Flush();
+        builder.Append("</").Append(operation).Append(">");
+        builder.Append("</soap:Body>");
+        builder.Append("</soap:Envelope>");
         return builder.ToString();
     }
 
@@ -111,7 +111,7 @@ internal sealed class EasySoapManualClient : IDisposable
 
     private static void WriteParameter(XmlWriter writer, SoapParameter parameter)
     {
-        writer.WriteStartElement(parameter.Name, SoapNamespace);
+        writer.WriteStartElement(parameter.Name);
 
         if (parameter.Value == null)
         {
@@ -157,7 +157,7 @@ internal sealed class EasySoapManualClient : IDisposable
 
     private static void WriteComplexValue(XmlWriter writer, string elementName, object? value)
     {
-        writer.WriteStartElement(elementName, SoapNamespace);
+        writer.WriteStartElement(elementName);
         if (value == null)
             writer.WriteAttributeString("xsi", "nil", "http://www.w3.org/2001/XMLSchema-instance", "true");
         else
@@ -170,7 +170,7 @@ internal sealed class EasySoapManualClient : IDisposable
         foreach (var property in GetSerializableProperties(value.GetType()))
         {
             var elementName = GetXmlElementName(property);
-            writer.WriteStartElement(elementName, SoapNamespace);
+            writer.WriteStartElement(elementName);
             WriteAnyValue(writer, property.GetValue(value));
             writer.WriteEndElement();
         }
