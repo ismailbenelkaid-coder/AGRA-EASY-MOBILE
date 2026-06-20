@@ -1,6 +1,5 @@
 ﻿using Services;
 using System.ServiceModel;
-using System.Text;
 using System.Xml.Linq;
 using AGRA_EASY_MOBILE.Models;
 
@@ -14,7 +13,6 @@ namespace AGRA_EASY_MOBILE.Services
         public static string CurrentLogin { get; private set; } = string.Empty;
         public static global::Services.EasyAccount? CurrentAccount { get; private set; }
         public static bool IsCustomerBillingManager { get; private set; } = false;
-        public static string LastConnectionDiagnosticText { get; private set; } = string.Empty;
         private static EasySoapManualClient? ManualClient;
         private static bool _applicationShellResetRequired;
         private static bool UseManualSoap => OperatingSystem.IsIOS();
@@ -925,29 +923,23 @@ namespace AGRA_EASY_MOBILE.Services
             bool useSecondary = Preferences.Default.Get("UseSecondaryLink", false);
             string user = Preferences.Default.Get("UserLogin", "");
             string pass = Preferences.Default.Get("UserPassword", "");
-            LastConnectionDiagnosticText = string.Empty;
-
             if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(pass))
                 return false;
 
             var previousAccount = CurrentAccount;
             string previousLogin = CurrentLogin;
 
-            BasicHttpBinding? binding = null;
+            if (Client != null && (IsConnected || CurrentAccount != null))
+                await CloseCurrentClientBeforeNewConnectionAsync();
 
-            try
-            {
-                if (Client != null && (IsConnected || CurrentAccount != null))
-                    await CloseCurrentClientBeforeNewConnectionAsync();
+            CurrentUrl = await GetUrlFromPlatformsXml(warehouse, useSecondary);
 
-                CurrentUrl = await GetUrlFromPlatformsXml(warehouse, useSecondary);
+            var binding = CurrentUrl.ToLower().StartsWith("https")
+                ? new BasicHttpBinding(BasicHttpSecurityMode.Transport)
+                : new BasicHttpBinding(BasicHttpSecurityMode.None);
 
-                binding = CurrentUrl.ToLower().StartsWith("https")
-                    ? new BasicHttpBinding(BasicHttpSecurityMode.Transport)
-                    : new BasicHttpBinding(BasicHttpSecurityMode.None);
-
-                binding.MaxReceivedMessageSize = int.MaxValue;
-                binding.AllowCookies = true;
+            binding.MaxReceivedMessageSize = int.MaxValue;
+            binding.AllowCookies = true;
 
                 if (UseManualSoap)
                 {
@@ -993,74 +985,7 @@ namespace AGRA_EASY_MOBILE.Services
                     _applicationShellResetRequired = true;
                 }
 
-                return IsConnected;
-            }
-            catch (Exception ex)
-            {
-                CaptureConnectionDiagnostic(ex, warehouse, useSecondary, CurrentUrl, binding);
-                throw;
-            }
-        }
-
-        private static void CaptureConnectionDiagnostic(Exception exception, string warehouse, bool useSecondary, string? url, BasicHttpBinding? binding)
-        {
-            LastConnectionDiagnosticText = BuildConnectionDiagnostic(exception, warehouse, useSecondary, url, binding);
-            System.Diagnostics.Debug.WriteLine(LastConnectionDiagnosticText);
-        }
-
-        private static string BuildConnectionDiagnostic(Exception exception, string warehouse, bool useSecondary, string? url, BasicHttpBinding? binding)
-        {
-            var sb = new StringBuilder();
-            var uri = Uri.TryCreate(url ?? string.Empty, UriKind.Absolute, out var parsedUri) ? parsedUri : null;
-
-            sb.AppendLine("Diagnostic temporaire connexion SOAP");
-            sb.AppendLine($"Date locale : {DateTime.Now:O}");
-            sb.AppendLine($"Plateforme MAUI : {DeviceInfo.Current.Platform}");
-            sb.AppendLine($"Version OS : {DeviceInfo.Current.VersionString}");
-            sb.AppendLine($"Modele appareil : {DeviceInfo.Current.Manufacturer} {DeviceInfo.Current.Model}");
-            sb.AppendLine($"Application : {AppInfo.Current.Name} {AppInfo.Current.VersionString} ({AppInfo.Current.BuildString})");
-            sb.AppendLine();
-            sb.AppendLine("Contexte appel");
-            sb.AppendLine($"Entrepot selectionne : {warehouse}");
-            sb.AppendLine($"Lien secondaire : {useSecondary}");
-            sb.AppendLine($"URL appelee : {url ?? "(non resolue)"}");
-            sb.AppendLine($"Protocole URL : {uri?.Scheme ?? "(inconnu)"}");
-            sb.AppendLine($"Host : {uri?.Host ?? "(inconnu)"}");
-            sb.AppendLine($"Binding SOAP : {binding?.GetType().Name ?? "(non cree)"}");
-            sb.AppendLine($"Securite binding : {binding?.Security.Mode.ToString() ?? "(inconnue)"}");
-            sb.AppendLine($"AllowCookies : {binding?.AllowCookies.ToString() ?? "(inconnu)"}");
-            sb.AppendLine($"MaxReceivedMessageSize : {binding?.MaxReceivedMessageSize.ToString() ?? "(inconnu)"}");
-            sb.AppendLine();
-            sb.AppendLine("Statut reseau");
-            sb.AppendLine($"NetworkAccess : {Connectivity.Current.NetworkAccess}");
-            sb.AppendLine($"ConnectionProfiles : {string.Join(", ", Connectivity.Current.ConnectionProfiles)}");
-            sb.AppendLine();
-            sb.AppendLine("Exception complete");
-            AppendException(sb, exception, 0);
-
-            return sb.ToString();
-        }
-
-        private static void AppendException(StringBuilder sb, Exception exception, int level)
-        {
-            string prefix = level == 0 ? string.Empty : $"Inner exception niveau {level} - ";
-            sb.AppendLine($"{prefix}Type : {exception.GetType().FullName}");
-            sb.AppendLine($"{prefix}Message : {exception.Message}");
-
-            if (exception is FaultException faultException)
-            {
-                sb.AppendLine($"{prefix}FaultCode : {faultException.Code}");
-                sb.AppendLine($"{prefix}FaultReason : {faultException.Reason}");
-            }
-
-            sb.AppendLine($"{prefix}StackTrace :");
-            sb.AppendLine(exception.StackTrace ?? "(aucune stack trace)");
-
-            if (exception.InnerException != null)
-            {
-                sb.AppendLine();
-                AppendException(sb, exception.InnerException, level + 1);
-            }
+            return IsConnected;
         }
 
         public static async Task CloseConnectionAsync()

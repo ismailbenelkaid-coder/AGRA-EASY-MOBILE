@@ -59,7 +59,7 @@ namespace AGRA_EASY_MOBILE
 
         private readonly ImageButton _scanButton = new()
         {
-            Source = "ic_barcode_scan.svg",
+            Source = "ic_barcode_scan.png",
             BackgroundColor = Color.FromArgb("#DCFCE7"),
             WidthRequest = 38,
             HeightRequest = 34,

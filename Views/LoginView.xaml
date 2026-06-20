@@ -17,7 +17,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="18" />
                         </Border.StrokeShape>
-                        <Image Source="ic_profile_header" WidthRequest="28" HeightRequest="28" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Image Source="ic_profile_header.png" WidthRequest="28" HeightRequest="28" HorizontalOptions="Center" VerticalOptions="Center" />
                     </Border>
                     <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
                         <Label Text="Profil et paramètres" FontAttributes="Bold" FontSize="20" TextColor="#0F172A" />
@@ -34,7 +34,7 @@
                         <RoundRectangle CornerRadius="18" />
                     </Border.StrokeShape>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                        <Image Source="ic_user" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" />
+                        <Image Source="ic_user.png" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" />
                         <local:BorderlessEntry x:Name="EntryLogin"
                                Grid.Column="1"
                                Placeholder="Identifiant"
@@ -51,7 +51,7 @@
                         <RoundRectangle CornerRadius="18" />
                     </Border.StrokeShape>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                        <Image Source="ic_lock" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" />
+                        <Image Source="ic_lock.png" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" />
                         <local:BorderlessEntry x:Name="EntryPassword"
                                Grid.Column="1"
                                Placeholder="Mot de passe"
@@ -69,7 +69,7 @@
                         <RoundRectangle CornerRadius="18" />
                     </Border.StrokeShape>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                        <Image Source="ic_globe" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" />
+                        <Image Source="ic_globe.png" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" />
                         <local:BorderlessPicker x:Name="PickerWarehouse"
                                 Grid.Column="1"
                                 Title="Sélectionner l'entrepôt"
@@ -86,7 +86,7 @@
                         <RoundRectangle CornerRadius="18" />
                     </Border.StrokeShape>
                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
-                        <Image Source="ic_globe" WidthRequest="16" HeightRequest="16" VerticalOptions="Center" Opacity="0.7" />
+                        <Image Source="ic_globe.png" WidthRequest="16" HeightRequest="16" VerticalOptions="Center" Opacity="0.7" />
                         <VerticalStackLayout Grid.Column="1" Spacing="2">
                             <Label Text="Lien secondaire" FontAttributes="Bold" FontSize="13" TextColor="#0F172A" />
                             <Label Text="Active l'URL secondaire, utile pour vos tests réseau." FontSize="12" TextColor="#64748B" />
@@ -122,22 +122,13 @@
         </ScrollView>
 
         <Border Grid.Row="2" BackgroundColor="#F6F8FB" StrokeThickness="0" Padding="20,10,20,16">
-            <VerticalStackLayout Spacing="10">
-                <Button x:Name="SaveSettingsButton" Text="ENREGISTRER LE PROFIL"
-                        BackgroundColor="#16A34A"
-                        TextColor="White"
-                        FontAttributes="Bold"
-                        CornerRadius="18"
-                        HeightRequest="52"
-                        Clicked="OnSaveSettingsClicked" />
-                <Button x:Name="ConnectionDiagnosticButton" Text="DIAGNOSTIC CONNEXION IOS"
-                        BackgroundColor="#2563EB"
-                        TextColor="White"
-                        FontAttributes="Bold"
-                        CornerRadius="18"
-                        HeightRequest="48"
-                        Clicked="OnConnectionDiagnosticClicked" />
-            </VerticalStackLayout>
+            <Button x:Name="SaveSettingsButton" Text="ENREGISTRER LE PROFIL"
+                    BackgroundColor="#16A34A"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="18"
+                    HeightRequest="52"
+                    Clicked="OnSaveSettingsClicked" />
         </Border>
         <Grid x:Name="ConnectionLoadingOverlay"
               IsVisible="False"

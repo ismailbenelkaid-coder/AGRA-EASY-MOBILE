@@ -606,7 +606,7 @@ namespace AGRA_EASY_MOBILE
             grid.Add(quantityFrame, 2, 0);
             Grid.SetRowSpan(quantityFrame, 2);
 
-            var delete = IconDangerButton("ic_delete.svg");
+            var delete = IconDangerButton("ic_delete.png");
             delete.VerticalOptions = LayoutOptions.Fill;
             delete.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => await DeleteLineAsync(selection)) });
             grid.Add(delete, 2, 2);

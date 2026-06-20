@@ -54,7 +54,6 @@ public partial class LoginView : ContentPage
         Preferences.Default.Remove("AutoReconnect");
         Preferences.Default.Remove("MaxAttempts");
 
-        string diagnosticToShow = string.Empty;
         string alertMessage = string.Empty;
         Color alertColor = Colors.Transparent;
 
@@ -69,16 +68,12 @@ public partial class LoginView : ContentPage
             }
             else
             {
-                diagnosticToShow = EasySession.LastConnectionDiagnosticText;
                 alertMessage = "Connexion impossible.";
                 alertColor = Colors.Red;
             }
         }
         catch (Exception ex)
         {
-            diagnosticToShow = string.IsNullOrWhiteSpace(EasySession.LastConnectionDiagnosticText)
-                ? ex.ToString()
-                : EasySession.LastConnectionDiagnosticText;
             alertMessage = ex.Message;
             alertColor = Colors.Red;
         }
@@ -87,26 +82,13 @@ public partial class LoginView : ContentPage
             SetConnectionLoading(false);
         }
 
-        if (!string.IsNullOrWhiteSpace(diagnosticToShow))
-            await ConnectionDiagnosticPage.ShowAsync(this, diagnosticToShow);
-        else if (!string.IsNullOrWhiteSpace(alertMessage))
+        if (!string.IsNullOrWhiteSpace(alertMessage))
             await ShowModernAlert(alertMessage, alertColor);
-    }
-
-    private async void OnConnectionDiagnosticClicked(object sender, EventArgs e)
-    {
-        var userName = EntryLogin.Text ?? string.Empty;
-        var password = EntryPassword.Text ?? string.Empty;
-        var warehouse = PickerWarehouse.SelectedItem?.ToString() ?? "Meyzieu";
-        var useSecondaryLink = SwitchLinkType.IsToggled;
-
-        await ConnectionTestLabPage.ShowAsync(this, userName, password, warehouse, useSecondaryLink);
     }
 
     private void SetConnectionLoading(bool isLoading)
     {
         SaveSettingsButton.IsEnabled = !isLoading;
-        ConnectionDiagnosticButton.IsEnabled = !isLoading;
         ConnectionLoadingOverlay.IsVisible = isLoading;
         ConnectionLoadingIndicator.IsRunning = isLoading;
     }

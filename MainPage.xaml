@@ -27,7 +27,7 @@
                     </VerticalStackLayout>
                     <ImageButton x:Name="AlertButtonHome"
                                  Grid.Column="1"
-                                 Source="bell.svg"
+                                 Source="bell.png"
                                  Clicked="OnNotificationsClicked"
                                  BackgroundColor="#EEF7FF"
                                  WidthRequest="46"
@@ -84,7 +84,7 @@
                         <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
                         <Border.GestureRecognizers><TapGestureRecognizer Tapped="GoToCatalogue" /></Border.GestureRecognizers>
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                            <Image Source="ic_search_product.svg" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                            <Image Source="ic_search_product.png" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
                             <VerticalStackLayout Grid.Column="1" Spacing="2">
                                 <Label Text="Catalogue et commandes" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
                                 <Label Text="Rechercher un article, consulter prix/stock et préparer le panier." FontSize="11" TextColor="#64748B" LineBreakMode="TailTruncation" />
@@ -96,7 +96,7 @@
                         <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
                         <Border.GestureRecognizers><TapGestureRecognizer Tapped="GoToOrderList" /></Border.GestureRecognizers>
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                            <Image Source="truck.svg" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                            <Image Source="truck.png" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
                             <VerticalStackLayout Grid.Column="1" Spacing="2">
                                 <Label Text="Expéditions" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
                                 <Label Text="Suivre commandes, bons de livraison, ruptures et colis." FontSize="11" TextColor="#64748B" LineBreakMode="TailTruncation" />
@@ -108,7 +108,7 @@
                         <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
                         <Border.GestureRecognizers><TapGestureRecognizer Tapped="GoToTrackReturn" /></Border.GestureRecognizers>
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                            <Image Source="ic_refund.svg" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                            <Image Source="ic_refund.png" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
                             <VerticalStackLayout Grid.Column="1" Spacing="2">
                                 <Label Text="Retours et garanties" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
                                 <Label Text="Créer un retour, suivre les statuts et traiter les refus." FontSize="11" TextColor="#64748B" LineBreakMode="TailTruncation" />
@@ -120,7 +120,7 @@
                         <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
                         <Border.GestureRecognizers><TapGestureRecognizer Tapped="GoToCustomerBilling" /></Border.GestureRecognizers>
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                            <Image Source="ic_invoice.svg" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                            <Image Source="ic_invoice.png" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
                             <VerticalStackLayout Grid.Column="1" Spacing="2">
                                 <Label Text="Facturations et frais de port" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
                                 <Label Text="Consulter les factures, les attentes et les frais à facturer." FontSize="11" TextColor="#64748B" LineBreakMode="TailTruncation" />
@@ -133,7 +133,7 @@
             <Border BackgroundColor="#0F172A" StrokeThickness="0" Padding="14,12" Margin="0,4,0,0">
                 <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
-                    <Image Source="ic_globe.svg" WidthRequest="24" HeightRequest="24" />
+                    <Image Source="ic_globe.png" WidthRequest="24" HeightRequest="24" />
                     <VerticalStackLayout Grid.Column="1" Spacing="2">
                         <Label Text="Guide mobile AGRA" FontSize="13" FontAttributes="Bold" TextColor="White" />
                         <Label Text="Le menu latéral donne accès aux modules détaillés disponibles selon votre profil."

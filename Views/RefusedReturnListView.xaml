@@ -176,7 +176,7 @@
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="9" />
                                         </Border.StrokeShape>
-                                        <Image Source="ic_camera.svg"
+                                        <Image Source="ic_camera.png"
                                                WidthRequest="15"
                                                HeightRequest="15"
                                                Aspect="AspectFit"
@@ -306,7 +306,7 @@
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="8" />
                                         </Border.StrokeShape>
-                                        <Image Source="ic_article_gallery.svg"
+                                        <Image Source="ic_article_gallery.png"
                                                Aspect="AspectFit"
                                                WidthRequest="16"
                                                HeightRequest="16"

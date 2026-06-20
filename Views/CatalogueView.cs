@@ -30,7 +30,7 @@ namespace AGRA_EASY_MOBILE
         private readonly Entry _searchEntry = new BorderlessEntry { Placeholder = "Référence", TextColor = Color.FromArgb("#0F172A"), PlaceholderColor = Color.FromArgb("#94A3B8"), BackgroundColor = Colors.Transparent, HorizontalTextAlignment = TextAlignment.Center, VerticalTextAlignment = TextAlignment.Center, ReturnType = ReturnType.Search };
         private readonly ImageButton _searchModeButton = new()
         {
-            Source = "ic_search_product.svg",
+            Source = "ic_search_product.png",
             BackgroundColor = Color.FromArgb("#E0F2FE"),
             CornerRadius = 12,
             WidthRequest = 44,
@@ -524,12 +524,12 @@ namespace AGRA_EASY_MOBILE
             if (_searchMode == CatalogueSearchMode.Registration)
             {
                 _searchEntry.Placeholder = "Immatriculation";
-                _searchModeButton.Source = "ic_article_vehicles.svg";
+                _searchModeButton.Source = "ic_article_vehicles.png";
                 return;
             }
 
             _searchEntry.Placeholder = "Référence";
-            _searchModeButton.Source = "ic_search_product.svg";
+            _searchModeButton.Source = "ic_search_product.png";
         }
 
         private void UpdateSearchModeAvailability()
@@ -1679,11 +1679,11 @@ namespace AGRA_EASY_MOBILE
         private Grid BuildArticleInfoActions(ArticlePriceAndStock article)
         {
             var row = new Grid { ColumnDefinitions = Columns("*,*,*,*,*"), ColumnSpacing = 5 };
-            var gallery = ArticleIconButton("ic_article_gallery.svg", "Images article");
+            var gallery = ArticleIconButton("ic_article_gallery.png", "Images article");
             gallery.Clicked += async (_, __) => await RunServiceAsync(async () =>
                 await ShowArticleImageGalleryAsync(article.BrandNo, article.ArtNo, BuildArticleImageUrl(article.ArticleImage)), true);
 
-            var documents = ArticleIconButton("ic_article_documents.svg", "Documents article");
+            var documents = ArticleIconButton("ic_article_documents.png", "Documents article");
             documents.Clicked += async (_, __) => await RunServiceAsync(async () =>
                 await ShowArticleDocumentListAsync(article.BrandNo, article.ArtNo), true);
 
@@ -1691,11 +1691,11 @@ namespace AGRA_EASY_MOBILE
             oem.Clicked += async (_, __) => await RunServiceAsync(async () =>
                 await ShowArticleReferenceListAsync(article.BrandNo, article.ArtNo), true);
 
-            var vehicles = ArticleIconButton("ic_article_vehicles.svg", "Véhicules article");
+            var vehicles = ArticleIconButton("ic_article_vehicles.png", "Véhicules article");
             vehicles.Clicked += async (_, __) => await RunServiceAsync(async () =>
                 await ShowArticleVehicleListAsync(article.BrandNo, article.ArtNo), true);
 
-            var attributes = ArticleIconButton("ic_article_attributes.svg", "Propriétés article");
+            var attributes = ArticleIconButton("ic_article_attributes.png", "Propriétés article");
             attributes.Clicked += async (_, __) => await RunServiceAsync(async () =>
                 await ShowArticleAttributeListAsync(article.BrandNo, article.ArtNo), true);
 

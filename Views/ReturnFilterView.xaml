@@ -58,7 +58,7 @@
                                             <Border.StrokeShape>
                                                 <RoundRectangle CornerRadius="12" />
                                             </Border.StrokeShape>
-                                            <Image Source="ic_calendar.svg"
+                                            <Image Source="ic_calendar.png"
                                                    WidthRequest="22"
                                                    HeightRequest="22"
                                                    HorizontalOptions="Center"
@@ -106,7 +106,7 @@
                                             <Border.StrokeShape>
                                                 <RoundRectangle CornerRadius="12" />
                                             </Border.StrokeShape>
-                                            <Image Source="ic_calendar.svg"
+                                            <Image Source="ic_calendar.png"
                                                    WidthRequest="22"
                                                    HeightRequest="22"
                                                    HorizontalOptions="Center"
@@ -154,7 +154,7 @@
                                     <ImageButton x:Name="SelectClientButton"
                                                  Grid.Row="1"
                                                  Grid.Column="1"
-                                                 Source="ic_user.svg"
+                                                 Source="ic_user.png"
                                                  Clicked="OnSelectClientClicked"
                                                  BackgroundColor="#E0F2FE"
                                                  CornerRadius="12"
@@ -188,7 +188,7 @@
                                             <Border.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="OnScanProductBarcodeClicked" />
                                             </Border.GestureRecognizers>
-                                            <Image Source="ic_barcode_scan.svg" WidthRequest="17" HeightRequest="15" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" />
+                                            <Image Source="ic_barcode_scan.png" WidthRequest="17" HeightRequest="15" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" />
                                         </Border>
                                         <Border Grid.Row="1" BackgroundColor="#E0F2FE" StrokeThickness="0" Padding="0" Margin="0,1,0,1" HorizontalOptions="Fill" VerticalOptions="Fill">
                                             <Border.StrokeShape>
@@ -197,7 +197,7 @@
                                             <Border.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="OnSelectProductClicked" />
                                             </Border.GestureRecognizers>
-                                            <Image Source="ic_search_product.svg" WidthRequest="17" HeightRequest="15" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" />
+                                            <Image Source="ic_search_product.png" WidthRequest="17" HeightRequest="15" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" />
                                         </Border>
                                     </Grid>
                                 </Grid>

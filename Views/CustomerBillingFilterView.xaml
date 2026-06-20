@@ -32,7 +32,7 @@
                                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
                                         <local:BorderlessEntry x:Name="StartDateEntry" Placeholder="jj/mm/aaaa" Keyboard="Numeric" PlaceholderColor="#94A3B8" TextColor="#0F172A" BackgroundColor="Transparent" HeightRequest="34" />
                                         <Grid Grid.Column="1" WidthRequest="38" HeightRequest="34">
-                                            <ImageButton Source="ic_calendar.svg" BackgroundColor="#E0F2FE" CornerRadius="12" Padding="7" Aspect="AspectFit" />
+                                            <ImageButton Source="ic_calendar.png" BackgroundColor="#E0F2FE" CornerRadius="12" Padding="7" Aspect="AspectFit" />
                                             <local:BorderlessDatePicker x:Name="StartDatePicker" DateSelected="OnStartDateSelected" BackgroundColor="Transparent" Opacity="0.01" />
                                         </Grid>
                                     </Grid>
@@ -46,7 +46,7 @@
                                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
                                         <local:BorderlessEntry x:Name="EndDateEntry" Placeholder="jj/mm/aaaa" Keyboard="Numeric" PlaceholderColor="#94A3B8" TextColor="#0F172A" BackgroundColor="Transparent" HeightRequest="34" />
                                         <Grid Grid.Column="1" WidthRequest="38" HeightRequest="34">
-                                            <ImageButton Source="ic_calendar.svg" BackgroundColor="#E0F2FE" CornerRadius="12" Padding="7" Aspect="AspectFit" />
+                                            <ImageButton Source="ic_calendar.png" BackgroundColor="#E0F2FE" CornerRadius="12" Padding="7" Aspect="AspectFit" />
                                             <local:BorderlessDatePicker x:Name="EndDatePicker" DateSelected="OnEndDateSelected" BackgroundColor="Transparent" Opacity="0.01" />
                                         </Grid>
                                     </Grid>
@@ -74,12 +74,12 @@
                                         <Border Grid.Row="0" BackgroundColor="#DCFCE7" StrokeThickness="0" Padding="0" Margin="0,1,0,1" HorizontalOptions="Fill" VerticalOptions="Fill">
                                             <Border.StrokeShape><RoundRectangle CornerRadius="9" /></Border.StrokeShape>
                                             <Border.GestureRecognizers><TapGestureRecognizer Tapped="OnScanProductBarcodeClicked" /></Border.GestureRecognizers>
-                                            <Image Source="ic_barcode_scan.svg" WidthRequest="17" HeightRequest="15" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" />
+                                            <Image Source="ic_barcode_scan.png" WidthRequest="17" HeightRequest="15" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" />
                                         </Border>
                                         <Border Grid.Row="1" BackgroundColor="#E0F2FE" StrokeThickness="0" Padding="0" Margin="0,1,0,1" HorizontalOptions="Fill" VerticalOptions="Fill">
                                             <Border.StrokeShape><RoundRectangle CornerRadius="9" /></Border.StrokeShape>
                                             <Border.GestureRecognizers><TapGestureRecognizer Tapped="OnSelectProductClicked" /></Border.GestureRecognizers>
-                                            <Image Source="ic_search_product.svg" WidthRequest="17" HeightRequest="15" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" />
+                                            <Image Source="ic_search_product.png" WidthRequest="17" HeightRequest="15" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" />
                                         </Border>
                                     </Grid>
                                 </Grid>
@@ -106,7 +106,7 @@
                                 <Grid RowDefinitions="Auto,34" ColumnDefinitions="*,38" ColumnSpacing="8">
                                     <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Code client livré" FontSize="11" TextColor="#64748B" />
                                     <local:BorderlessEntry x:Name="EntryAccountCode" Grid.Row="1" Grid.Column="0" Placeholder="Ex : 000181" Keyboard="Text" PlaceholderColor="#94A3B8" TextColor="#0F172A" BackgroundColor="Transparent" HeightRequest="34" VerticalTextAlignment="Center" />
-                                    <ImageButton x:Name="SelectDeliveredClientButton" Grid.Row="1" Grid.Column="1" Source="ic_user.svg" Clicked="OnSelectDeliveredClientClicked" BackgroundColor="#E0F2FE" CornerRadius="12" WidthRequest="38" HeightRequest="34" Padding="7" Aspect="AspectFit" />
+                                    <ImageButton x:Name="SelectDeliveredClientButton" Grid.Row="1" Grid.Column="1" Source="ic_user.png" Clicked="OnSelectDeliveredClientClicked" BackgroundColor="#E0F2FE" CornerRadius="12" WidthRequest="38" HeightRequest="34" Padding="7" Aspect="AspectFit" />
                                 </Grid>
                             </Border>
 
@@ -115,7 +115,7 @@
                                 <Grid RowDefinitions="Auto,34" ColumnDefinitions="*,38" ColumnSpacing="8">
                                     <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Code client facturé" FontSize="11" TextColor="#64748B" />
                                     <local:BorderlessEntry x:Name="EntryInvoicedAccountCode" Grid.Row="1" Grid.Column="0" Placeholder="Ex : 000181" Keyboard="Text" PlaceholderColor="#94A3B8" TextColor="#0F172A" BackgroundColor="Transparent" HeightRequest="34" VerticalTextAlignment="Center" />
-                                    <ImageButton x:Name="SelectInvoicedClientButton" Grid.Row="1" Grid.Column="1" Source="ic_user.svg" Clicked="OnSelectInvoicedClientClicked" BackgroundColor="#E0F2FE" CornerRadius="12" WidthRequest="38" HeightRequest="34" Padding="7" Aspect="AspectFit" />
+                                    <ImageButton x:Name="SelectInvoicedClientButton" Grid.Row="1" Grid.Column="1" Source="ic_user.png" Clicked="OnSelectInvoicedClientClicked" BackgroundColor="#E0F2FE" CornerRadius="12" WidthRequest="38" HeightRequest="34" Padding="7" Aspect="AspectFit" />
                                 </Grid>
                             </Border>
                         </Grid>
