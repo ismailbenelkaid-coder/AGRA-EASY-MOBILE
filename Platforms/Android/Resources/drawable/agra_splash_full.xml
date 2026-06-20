@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+    <item android:drawable="@android:color/white" />
+    <item
+        android:width="390dp"
+        android:height="390dp"
+        android:gravity="center">
+        <bitmap
+            android:gravity="fill"
+            android:mipMap="true"
+            android:src="@drawable/drop_network_splash" />
+    </item>
+</layer-list>

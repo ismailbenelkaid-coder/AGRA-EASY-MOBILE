@@ -48,7 +48,6 @@ public partial class StartupConnectionView : ContentPage
 
         try
         {
-            StartupMessage.Text = "Connexion en cours...";
             bool connected = await EasySession.OpenConnectionAsync();
 
             if (connected)

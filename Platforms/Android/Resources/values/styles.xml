@@ -7,4 +7,9 @@
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
+
+    <style name="Maui.SplashTheme" parent="Maui.MainTheme.NoActionBar">
+        <item name="maui_splash">true</item>
+        <item name="android:windowBackground">@drawable/agra_splash_full</item>
+    </style>
 </resources>
