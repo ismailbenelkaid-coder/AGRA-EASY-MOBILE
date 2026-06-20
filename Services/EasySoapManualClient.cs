@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -79,7 +80,8 @@ internal sealed class EasySoapManualClient : IDisposable
         };
 
         var builder = new StringBuilder();
-        using var writer = XmlWriter.Create(builder, settings);
+        using var textWriter = new Utf8StringWriter(builder);
+        using var writer = XmlWriter.Create(textWriter, settings);
         writer.WriteStartDocument();
         writer.WriteStartElement("soap", "Envelope", "http://schemas.xmlsoap.org/soap/envelope/");
         writer.WriteAttributeString("xmlns", "xsi", null, "http://www.w3.org/2001/XMLSchema-instance");
@@ -95,6 +97,16 @@ internal sealed class EasySoapManualClient : IDisposable
         writer.WriteEndElement();
         writer.WriteEndDocument();
         return builder.ToString();
+    }
+
+    private sealed class Utf8StringWriter : StringWriter
+    {
+        public Utf8StringWriter(StringBuilder builder)
+            : base(builder, CultureInfo.InvariantCulture)
+        {
+        }
+
+        public override Encoding Encoding => Encoding.UTF8;
     }
 
     private static void WriteParameter(XmlWriter writer, SoapParameter parameter)
