@@ -4,22 +4,21 @@
              x:Class="AGRA_EASY_MOBILE.StartupConnectionView"
              BackgroundColor="White">
 
-    <Grid>
-        <Image Source="drop_network_startup_full.png"
-               Aspect="AspectFill"
-               HorizontalOptions="Fill"
-               VerticalOptions="Fill"
+    <Grid RowDefinitions="*,Auto">
+        <Image x:Name="StartupMapImage"
+               Grid.Row="0"
+               Source="drop_network_startup_full.png"
+               Aspect="AspectFit"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Margin="10,0"
                InputTransparent="True" />
 
-        <BoxView BackgroundColor="#55FFFFFF"
-                 HorizontalOptions="Fill"
-                 VerticalOptions="Fill" />
-
-        <Border BackgroundColor="#EFFFFFFF"
+        <Border Grid.Row="1"
+                BackgroundColor="#EFFFFFFF"
                 Stroke="#E2E8F0"
                 Padding="18,14"
-                Margin="24"
-                VerticalOptions="End"
+                Margin="24,0,24,24"
                 HorizontalOptions="Fill">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="22" />

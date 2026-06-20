@@ -23,6 +23,18 @@ public partial class StartupConnectionView : ContentPage
         await StartAsync();
     }
 
+    protected override void OnSizeAllocated(double width, double height)
+    {
+        base.OnSizeAllocated(width, height);
+
+        if (width <= 0)
+            return;
+
+        double imageSize = Math.Max(0, width - 20);
+        StartupMapImage.WidthRequest = imageSize;
+        StartupMapImage.HeightRequest = imageSize;
+    }
+
     private async Task StartAsync()
     {
         string user = Preferences.Default.Get("UserLogin", string.Empty);
