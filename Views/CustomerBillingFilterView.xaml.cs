@@ -10,12 +10,13 @@ public partial class CustomerBillingFilterView : ContentPage
     private bool _isSynchronizingDatePicker;
     private string _lastResolvedProductText = string.Empty;
     private string _lastUserProductFilter = string.Empty;
+    private readonly KeyboardScanInputTracker _productScanInputTracker = new();
 
     public CustomerBillingFilterView()
     {
         InitializeComponent();
         EntryProduct.TextChanged += OnProductTextChanged;
-        EntryProduct.Completed += async (_, __) => await ResolveProductCodeAsync(true);
+        EntryProduct.Completed += async (_, __) => await OnProductEntryCompletedAsync();
         EntryProduct.Unfocused += async (_, __) => await ResolveProductCodeAsync(true);
         StartDateEntry.TextChanged += (_, __) => SynchronizeDatePicker(StartDateEntry, StartDatePicker);
         EndDateEntry.TextChanged += (_, __) => SynchronizeDatePicker(EndDateEntry, EndDatePicker);
@@ -112,6 +113,7 @@ public partial class CustomerBillingFilterView : ContentPage
         if (_isResolvingProductCode)
             return;
 
+        _productScanInputTracker.ObserveTextChanged(e.OldTextValue, e.NewTextValue);
         _lastUserProductFilter = (e.NewTextValue ?? string.Empty).Trim();
     }
 
@@ -251,6 +253,18 @@ public partial class CustomerBillingFilterView : ContentPage
         }
     }
 
+    private async Task OnProductEntryCompletedAsync()
+    {
+        if (_productScanInputTracker.ConsumeCompletedAsScan(EntryProduct.Text))
+        {
+            string? productCode = await ProductBarcodeScanService.ResolveScannedProductCodeAsync(this, EntryProduct.Text);
+            ApplyScannedProductCode(productCode);
+            return;
+        }
+
+        await ResolveProductCodeAsync(true);
+    }
+
     private async void OnSelectInvoicedClientClicked(object sender, EventArgs e)
     {
         if (!EntryInvoicedAccountCode.IsVisible || !EntryInvoicedAccountCode.IsEnabled)
@@ -282,12 +296,18 @@ public partial class CustomerBillingFilterView : ContentPage
     private async void OnScanProductBarcodeClicked(object sender, EventArgs e)
     {
         string? productCode = await ProductBarcodeScanService.ScanAndResolveProductCodeAsync(this);
+        ApplyScannedProductCode(productCode);
+    }
+
+    private void ApplyScannedProductCode(string? productCode)
+    {
         if (string.IsNullOrWhiteSpace(productCode))
             return;
 
         EntryProduct.Text = productCode;
         _lastUserProductFilter = productCode;
         _lastResolvedProductText = productCode;
+        _productScanInputTracker.Reset();
     }
 
     private async void OnSelectProductClicked(object sender, EventArgs e)

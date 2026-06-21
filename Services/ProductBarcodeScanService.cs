@@ -17,7 +17,21 @@ public static class ProductBarcodeScanService
             return null;
 
         string cleanCode = scannedCode.Trim();
+        return await ResolveScannedProductAsync(owner, cleanCode);
+    }
 
+    public static async Task<string?> ResolveScannedProductCodeAsync(Page owner, string? scannedCode)
+    {
+        ReturnableArticle? product = await ResolveScannedProductAsync(owner, scannedCode);
+        return product?.ProductCode?.Trim();
+    }
+
+    public static async Task<ReturnableArticle?> ResolveScannedProductAsync(Page owner, string? scannedCode)
+    {
+        if (string.IsNullOrWhiteSpace(scannedCode))
+            return null;
+
+        string cleanCode = scannedCode.Trim();
         try
         {
             ReturnableArticle[] products = await EasySession.FindProductCodeListAsync(cleanCode, false, true)

@@ -78,6 +78,7 @@ namespace AGRA_EASY_MOBILE
         private string _lastSearchKeyword = string.Empty;
         private bool _isSearching;
         private bool _initialSearchDone;
+        private readonly KeyboardScanInputTracker _scanInputTracker = new();
 
         public ProductCodeSelectionPage(string title, string initialFilter)
         {
@@ -119,7 +120,8 @@ namespace AGRA_EASY_MOBILE
 
         private void BuildContent(string title)
         {
-            _filterEntry.Completed += async (_, __) => await SearchProductsAsync(true);
+            _filterEntry.TextChanged += (_, e) => _scanInputTracker.ObserveTextChanged(e.OldTextValue, e.NewTextValue);
+            _filterEntry.Completed += async (_, __) => await OnFilterEntryCompletedAsync();
             _filterEntry.Unfocused += async (_, __) => await SearchProductsAsync(true);
             _validateButton.Clicked += async (_, __) => await ValidateSelectionAsync();
             _cancelButton.Clicked += async (_, __) => await CancelAsync();
@@ -237,6 +239,22 @@ namespace AGRA_EASY_MOBILE
                 _activityIndicator.IsVisible = false;
                 _isSearching = false;
             }
+        }
+
+        private async Task OnFilterEntryCompletedAsync()
+        {
+            if (_scanInputTracker.ConsumeCompletedAsScan(_filterEntry.Text))
+            {
+                ReturnableArticle? product = await ProductBarcodeScanService.ResolveScannedProductAsync(this, _filterEntry.Text);
+                if (product == null)
+                    return;
+
+                _completion.TrySetResult(product);
+                await CloseAsync();
+                return;
+            }
+
+            await SearchProductsAsync(true);
         }
 
         private void RebuildProductList()

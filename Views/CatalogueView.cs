@@ -30,7 +30,7 @@ namespace AGRA_EASY_MOBILE
         private readonly Entry _searchEntry = new BorderlessEntry { Placeholder = "Référence", TextColor = Color.FromArgb("#0F172A"), PlaceholderColor = Color.FromArgb("#94A3B8"), BackgroundColor = Colors.Transparent, HorizontalTextAlignment = TextAlignment.Center, VerticalTextAlignment = TextAlignment.Center, ReturnType = ReturnType.Search };
         private readonly ImageButton _searchModeButton = new()
         {
-            Source = "ic_search_product.png",
+            Source = "ic_article_oem.png",
             BackgroundColor = Color.FromArgb("#E0F2FE"),
             CornerRadius = 12,
             WidthRequest = 44,
@@ -38,6 +38,17 @@ namespace AGRA_EASY_MOBILE
             Padding = new Thickness(8),
             Aspect = Aspect.AspectFit,
             AutomationId = "CatalogueSearchMode"
+        };
+        private readonly ImageButton _referenceScanButton = new()
+        {
+            Source = "ic_barcode_scan.png",
+            BackgroundColor = Color.FromArgb("#DCFCE7"),
+            CornerRadius = 10,
+            WidthRequest = 34,
+            HeightRequest = 32,
+            Padding = new Thickness(6),
+            Aspect = Aspect.AspectFit,
+            AutomationId = "CatalogueReferenceBarcodeScan"
         };
         private enum WarehouseSelectionMode
         {
@@ -71,6 +82,7 @@ namespace AGRA_EASY_MOBILE
         private Button? _searchButton;
         private Border? _searchEntryBox;
         private Border? _accountCard;
+        private readonly KeyboardScanInputTracker _referenceScanInputTracker = new();
 
         private readonly List<CatalogArticle> _lastReferenceList = new();
         private readonly List<ArticlePriceAndStock> _lastArticleList = new();
@@ -170,12 +182,14 @@ namespace AGRA_EASY_MOBILE
             var searchButton = PrimaryButton("Chercher");
             _searchButton = searchButton;
             searchButton.Clicked += async (_, __) => await SearchCatalogueAsync();
-            _searchEntry.Completed += async (_, __) => await SearchCatalogueAsync();
+            _searchEntry.TextChanged += OnSearchEntryTextChanged;
+            _searchEntry.Completed += async (_, __) => await OnSearchEntryCompletedAsync();
             _searchModeButton.Clicked += (_, __) => ToggleSearchMode();
+            _referenceScanButton.Clicked += async (_, __) => await ScanReferenceBarcodeAsync();
             _searchModeButton.IsVisible = false;
             var searchGrid = new Grid { ColumnSpacing = 8, ColumnDefinitions = Columns("*,Auto,Auto") };
             _searchGrid = searchGrid;
-            var searchEntryBox = EditBox(_searchEntry);
+            var searchEntryBox = SearchEditBox(_searchEntry, _referenceScanButton);
             _searchEntryBox = searchEntryBox;
             searchGrid.Add(searchEntryBox, 0, 0);
             searchGrid.Add(_searchModeButton, 1, 0);
@@ -525,11 +539,58 @@ namespace AGRA_EASY_MOBILE
             {
                 _searchEntry.Placeholder = "Immatriculation";
                 _searchModeButton.Source = "ic_article_vehicles.png";
+                _referenceScanButton.IsVisible = false;
                 return;
             }
 
             _searchEntry.Placeholder = "Référence";
-            _searchModeButton.Source = "ic_search_product.png";
+            _searchModeButton.Source = "ic_article_oem.png";
+            _referenceScanButton.IsVisible = true;
+        }
+
+        private async Task ScanReferenceBarcodeAsync()
+        {
+            if (_searchMode != CatalogueSearchMode.Reference)
+                return;
+
+            string? productCode = await ProductBarcodeScanService.ScanAndResolveProductCodeAsync(this);
+            ApplyScannedReferenceCode(productCode);
+        }
+
+        private void OnSearchEntryTextChanged(object? sender, TextChangedEventArgs e)
+        {
+            if (_searchMode != CatalogueSearchMode.Reference)
+            {
+                _referenceScanInputTracker.Reset();
+                return;
+            }
+
+            _referenceScanInputTracker.ObserveTextChanged(e.OldTextValue, e.NewTextValue);
+        }
+
+        private async Task OnSearchEntryCompletedAsync()
+        {
+            if (_searchMode == CatalogueSearchMode.Reference
+                && _referenceScanInputTracker.ConsumeCompletedAsScan(_searchEntry.Text))
+            {
+                string? productCode = await ProductBarcodeScanService.ResolveScannedProductCodeAsync(this, _searchEntry.Text);
+                if (ApplyScannedReferenceCode(productCode))
+                    await SearchCatalogueAsync();
+                return;
+            }
+
+            _referenceScanInputTracker.Reset();
+            await SearchCatalogueAsync();
+        }
+
+        private bool ApplyScannedReferenceCode(string? productCode)
+        {
+            if (string.IsNullOrWhiteSpace(productCode))
+                return false;
+
+            _searchEntry.Text = productCode;
+            _referenceScanInputTracker.Reset();
+            return true;
         }
 
         private void UpdateSearchModeAvailability()
@@ -2832,6 +2893,34 @@ namespace AGRA_EASY_MOBILE
                 Padding = new Thickness(8, 0),
                 StrokeShape = new RoundRectangle { CornerRadius = 12 },
                 Content = entry
+            };
+        }
+
+        private static Border SearchEditBox(Entry entry, ImageButton actionButton)
+        {
+            entry.BackgroundColor = Colors.Transparent;
+            entry.TextColor = Color.FromArgb("#0F172A");
+            entry.PlaceholderColor = Color.FromArgb("#94A3B8");
+            entry.HorizontalTextAlignment = TextAlignment.Center;
+            entry.VerticalTextAlignment = TextAlignment.Center;
+            entry.HeightRequest = 42;
+
+            var grid = new Grid
+            {
+                ColumnDefinitions = Columns("*,Auto"),
+                ColumnSpacing = 4
+            };
+            grid.Add(entry, 0, 0);
+            grid.Add(actionButton, 1, 0);
+
+            return new Border
+            {
+                BackgroundColor = Color.FromArgb("#F8FAFC"),
+                Stroke = Color.FromArgb("#CBD5E1"),
+                StrokeThickness = 1,
+                Padding = new Thickness(8, 0, 5, 0),
+                StrokeShape = new RoundRectangle { CornerRadius = 12 },
+                Content = grid
             };
         }
 
