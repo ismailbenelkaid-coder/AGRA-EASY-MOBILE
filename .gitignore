@@ -20,6 +20,11 @@ dotnet/
 TestResults/
 artifacts/
 
+# Project documentation / local context files
+Documentation service web AGRA EASY.docx
+REPRISE_NOUVELLE_DISCUSSION_AGRA_EASY_MOBILE.md
+Suivi_AGRA_EASY_MOBILE_demandes.md
+
 # Apple signing material and local publishing output
 apple-signing-local/
 apple-signing-local/**
