@@ -13,10 +13,10 @@
     <MauiXamlInflator>SourceGen</MauiXamlInflator>
     <ApplicationTitle>AGRA-EASY-MOBILE</ApplicationTitle>
     <ApplicationId>fr.groupeagra.easymobile</ApplicationId>
-    <ApplicationDisplayVersion>0.96</ApplicationDisplayVersion>
-    <ApplicationVersion>96</ApplicationVersion>
-    <Version>0.96</Version>
-    <PackageVersion>0.96</PackageVersion>
+    <ApplicationDisplayVersion>0.97</ApplicationDisplayVersion>
+    <ApplicationVersion>97</ApplicationVersion>
+    <Version>0.97</Version>
+    <PackageVersion>0.97</PackageVersion>
     <WindowsPackageType>None</WindowsPackageType>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>

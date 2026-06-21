@@ -421,8 +421,94 @@ public class BorderlessEntry : Entry
 
 public class BorderlessPicker : Picker
 {
+    private readonly TapGestureRecognizer _openPickerGesture;
+    private View? _openPickerGestureTarget;
+
+    public BorderlessPicker()
+    {
+        _openPickerGesture = new TapGestureRecognizer();
+        _openPickerGesture.Tapped += (_, __) => OpenPicker();
+    }
+
+    protected override void OnParentSet()
+    {
+        base.OnParentSet();
+        UpdateOpenPickerGestureTarget();
+    }
+
+    protected override void OnPropertyChanged(string? propertyName = null)
+    {
+        base.OnPropertyChanged(propertyName);
+
+        if (propertyName == nameof(Opacity))
+            UpdateOpenPickerGestureTarget();
+    }
+
+    private void UpdateOpenPickerGestureTarget()
+    {
+        if (_openPickerGestureTarget != null)
+        {
+            _openPickerGestureTarget.GestureRecognizers.Remove(_openPickerGesture);
+            _openPickerGestureTarget = null;
+        }
+
+        if (Opacity > 0.05 || Parent is not View parent)
+            return;
+
+        parent.GestureRecognizers.Add(_openPickerGesture);
+        _openPickerGestureTarget = parent;
+    }
+
+    private void OpenPicker()
+    {
+        if (IsEnabled && IsVisible)
+            Focus();
+    }
 }
 
 public class BorderlessDatePicker : DatePicker
 {
+    private readonly TapGestureRecognizer _openPickerGesture;
+    private View? _openPickerGestureTarget;
+
+    public BorderlessDatePicker()
+    {
+        _openPickerGesture = new TapGestureRecognizer();
+        _openPickerGesture.Tapped += (_, __) => OpenPicker();
+    }
+
+    protected override void OnParentSet()
+    {
+        base.OnParentSet();
+        UpdateOpenPickerGestureTarget();
+    }
+
+    protected override void OnPropertyChanged(string? propertyName = null)
+    {
+        base.OnPropertyChanged(propertyName);
+
+        if (propertyName == nameof(Opacity))
+            UpdateOpenPickerGestureTarget();
+    }
+
+    private void UpdateOpenPickerGestureTarget()
+    {
+        if (_openPickerGestureTarget != null)
+        {
+            _openPickerGestureTarget.GestureRecognizers.Remove(_openPickerGesture);
+            _openPickerGestureTarget = null;
+        }
+
+        if (Opacity > 0.05 || Parent is not View parent)
+            return;
+
+        parent.GestureRecognizers.Add(_openPickerGesture);
+        _openPickerGestureTarget = parent;
+    }
+
+    private void OpenPicker()
+    {
+        if (IsEnabled && IsVisible)
+            Focus();
+    }
 }

@@ -65,13 +65,13 @@
                                                    VerticalOptions="Center"
                                                    Aspect="AspectFit" />
                                         </Border>
-                                        <DatePicker x:Name="StartDatePicker"
-                                                    DateSelected="OnStartDateSelected"
-                                                    Format="dd/MM/yyyy"
-                                                    WidthRequest="38"
-                                                    HeightRequest="34"
-                                                    BackgroundColor="Transparent"
-                                                    Opacity="0.01" />
+                                        <local:BorderlessDatePicker x:Name="StartDatePicker"
+                                                                    DateSelected="OnStartDateSelected"
+                                                                    Format="dd/MM/yyyy"
+                                                                    WidthRequest="38"
+                                                                    HeightRequest="34"
+                                                                    BackgroundColor="Transparent"
+                                                                    Opacity="0.01" />
                                     </Grid>
                                 </Grid>
                             </Border>
@@ -113,13 +113,13 @@
                                                    VerticalOptions="Center"
                                                    Aspect="AspectFit" />
                                         </Border>
-                                        <DatePicker x:Name="EndDatePicker"
-                                                    DateSelected="OnEndDateSelected"
-                                                    Format="dd/MM/yyyy"
-                                                    WidthRequest="38"
-                                                    HeightRequest="34"
-                                                    BackgroundColor="Transparent"
-                                                    Opacity="0.01" />
+                                        <local:BorderlessDatePicker x:Name="EndDatePicker"
+                                                                    DateSelected="OnEndDateSelected"
+                                                                    Format="dd/MM/yyyy"
+                                                                    WidthRequest="38"
+                                                                    HeightRequest="34"
+                                                                    BackgroundColor="Transparent"
+                                                                    Opacity="0.01" />
                                     </Grid>
                                 </Grid>
                             </Border>
