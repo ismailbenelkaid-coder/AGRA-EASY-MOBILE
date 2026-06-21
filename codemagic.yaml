@@ -20,7 +20,7 @@ workflows:
         DOTNET: $HOME/dotnet/dotnet
         PROJECT_FILE: AGRA-EASY-MOBILE.csproj
         BUNDLE_ID: fr.groupeagra.easymobile
-        APP_DISPLAY_VERSION: "0.96"
+        APP_DISPLAY_VERSION: "0.97"
 
     scripts:
       - name: Install .NET SDK
