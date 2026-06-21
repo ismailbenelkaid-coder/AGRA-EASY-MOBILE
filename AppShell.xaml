@@ -87,19 +87,31 @@
 
     <Shell.FlyoutHeader>
         <VerticalStackLayout Padding="15,18,15,15" Spacing="14" BackgroundColor="White">
-            <Grid Margin="0,0,0,2" HeightRequest="126">
+            <Grid Margin="0,0,0,2" HeightRequest="116">
                 <Border BackgroundColor="#FFFFFF" Stroke="#E2E8F0" StrokeThickness="1" Padding="18,15,54,14">
                     <Border.StrokeShape><RoundRectangle CornerRadius="22" /></Border.StrokeShape>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="GoToHome" />
                     </Border.GestureRecognizers>
-                    <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
-                        <Image Source="agra_logo_clean.png"
-                               HeightRequest="58"
-                               WidthRequest="255"
-                               Aspect="AspectFit"
-                               HorizontalOptions="Start"
-                               VerticalOptions="Center" />
+                    <Grid RowDefinitions="Auto,Auto" RowSpacing="9">
+                        <Grid WidthRequest="310"
+                              HeightRequest="70"
+                              HorizontalOptions="Center">
+                            <Image Source="agra_shell_header.png"
+                                   HeightRequest="58"
+                                   WidthRequest="205"
+                                   Aspect="AspectFit"
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="Start" />
+                            <Label Text="Easy mobile"
+                                   FontSize="14"
+                                   FontAttributes="Italic"
+                                   TextColor="#64748B"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="End"
+                                   Margin="0,0,12,2"
+                                   LineBreakMode="NoWrap" />
+                        </Grid>
                         <Grid Grid.Row="1" ColumnDefinitions="Auto,*" ColumnSpacing="10">
                             <Border BackgroundColor="#EFF6FF" StrokeThickness="0" Padding="10,5" VerticalOptions="Center">
                                 <Border.StrokeShape><RoundRectangle CornerRadius="11" /></Border.StrokeShape>
