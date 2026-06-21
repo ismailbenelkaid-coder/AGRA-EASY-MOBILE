@@ -88,31 +88,25 @@
     <Shell.FlyoutHeader>
         <VerticalStackLayout Padding="15,18,15,15" Spacing="14" BackgroundColor="White">
             <Grid Margin="0,0,0,2" HeightRequest="116">
-                <Border BackgroundColor="#FFFFFF" Stroke="#E2E8F0" StrokeThickness="1" Padding="18,15,54,14">
+                <Border BackgroundColor="#FFFFFF" Stroke="#E2E8F0" StrokeThickness="1" Padding="18,11,54,10">
                     <Border.StrokeShape><RoundRectangle CornerRadius="22" /></Border.StrokeShape>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="GoToHome" />
                     </Border.GestureRecognizers>
-                    <Grid RowDefinitions="Auto,Auto" RowSpacing="9">
-                        <Grid WidthRequest="310"
-                              HeightRequest="70"
-                              HorizontalOptions="Center">
-                            <Image Source="agra_shell_header.png"
-                                   HeightRequest="58"
-                                   WidthRequest="205"
-                                   Aspect="AspectFit"
-                                   HorizontalOptions="Start"
-                                   VerticalOptions="Start" />
-                            <Label Text="Easy mobile"
-                                   FontSize="14"
-                                   FontAttributes="Italic"
-                                   TextColor="#64748B"
-                                   HorizontalOptions="End"
-                                   VerticalOptions="End"
-                                   Margin="0,0,12,2"
-                                   LineBreakMode="NoWrap" />
-                        </Grid>
-                        <Grid Grid.Row="1" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Image Source="agra_shell_header.png"
+                               HeightRequest="48"
+                               WidthRequest="230"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                        <BoxView Grid.Row="1"
+                                 HeightRequest="1"
+                                 WidthRequest="214"
+                                 Color="#E2E8F0"
+                                 HorizontalOptions="Start"
+                                 Margin="0,3,0,0" />
+                        <Grid Grid.Row="2" ColumnDefinitions="Auto,*" ColumnSpacing="10">
                             <Border BackgroundColor="#EFF6FF" StrokeThickness="0" Padding="10,5" VerticalOptions="Center">
                                 <Border.StrokeShape><RoundRectangle CornerRadius="11" /></Border.StrokeShape>
                                 <Label Text="MENU"
