@@ -87,29 +87,31 @@
 
     <Shell.FlyoutHeader>
         <VerticalStackLayout Padding="15,20,15,15" Spacing="12" BackgroundColor="White">
-            <Grid ColumnDefinitions="52,*,52" ColumnSpacing="8" Margin="0,0,0,10">
-                <Button Grid.Column="0"
-                        Text="☰"
-                        Clicked="CloseFlyout"
-                        BackgroundColor="#F8FAFC"
-                        TextColor="#111827"
-                        FontSize="28"
-                        CornerRadius="24"
-                        WidthRequest="48"
-                        HeightRequest="48"
-                        Padding="0"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Start" />
-                <Border Grid.Column="1" BackgroundColor="White" StrokeThickness="0" Padding="6">
+            <Grid Margin="0,0,0,10" HeightRequest="92">
+                <Border BackgroundColor="White" StrokeThickness="0" Padding="6">
                     <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="GoToHome" />
                     </Border.GestureRecognizers>
                     <Image Source="agra_logo_clean.png"
-                           HeightRequest="58"
+                           HeightRequest="82"
                            Aspect="AspectFit"
-                           HorizontalOptions="Center" />
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
                 </Border>
+                <Button Text="×"
+                        Clicked="CloseFlyout"
+                        BackgroundColor="#F8FAFC"
+                        TextColor="#334155"
+                        BorderColor="#E2E8F0"
+                        BorderWidth="1"
+                        FontSize="24"
+                        CornerRadius="18"
+                        WidthRequest="36"
+                        HeightRequest="36"
+                        Padding="0"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start" />
             </Grid>
 
             <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
