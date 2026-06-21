@@ -8,10 +8,25 @@ namespace AGRA_EASY_MOBILE
         public AppShell()
         {
             InitializeComponent();
+            ApplyFullScreenFlyoutWidth();
+            DeviceDisplay.MainDisplayInfoChanged += OnMainDisplayInfoChanged;
             ApplyAuthorizations();
             ShippingWarningNotificationService.NewAlertsStateChanged += OnNewAlertsStateChanged;
             ShippingWarningNotificationService.Start();
             UpdateAlertIcon();
+        }
+
+        private void ApplyFullScreenFlyoutWidth()
+        {
+            DisplayInfo displayInfo = DeviceDisplay.MainDisplayInfo;
+            double screenWidth = displayInfo.Width / displayInfo.Density;
+            if (screenWidth > 0)
+                FlyoutWidth = screenWidth;
+        }
+
+        private void OnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
+        {
+            MainThread.BeginInvokeOnMainThread(ApplyFullScreenFlyoutWidth);
         }
 
         private void ApplyAuthorizations()
@@ -67,6 +82,7 @@ namespace AGRA_EASY_MOBILE
         private async void GoToShippingCost(object sender, EventArgs e) => await NavigateToBillingRoute("//groupe_facturation/shippingCostList");
         private async void OnNotificationsClicked(object sender, EventArgs e) => await NavigateTo("//notifications");
         private async void OnProfileClicked(object sender, EventArgs e) => await NavigateTo("//login");
+        private void CloseFlyout(object sender, EventArgs e) => Shell.Current.FlyoutIsPresented = false;
 
         private void OnNewAlertsStateChanged(object? sender, EventArgs e) => UpdateAlertIcon();
 
