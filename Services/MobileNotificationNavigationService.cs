@@ -4,6 +4,8 @@ namespace AGRA_EASY_MOBILE.Services;
 
 public static class MobileNotificationNavigationService
 {
+    private static PendingShippingWarningNotification? _pendingShippingWarningNotification;
+
     public static Task OpenShippingWarningAsync(IDictionary<string, string> data)
     {
         data.TryGetValue("type", out var type);
@@ -27,11 +29,50 @@ public static class MobileNotificationNavigationService
 
         await MainThread.InvokeOnMainThreadAsync(async () =>
         {
-            var page = new ShippingWarningDetailView(shippingWarningId.Trim(), originalWarehouse.Trim(), shortDescription);
-            if (Shell.Current != null)
-                await Shell.Current.Navigation.PushAsync(page);
-            else if (Application.Current?.MainPage?.Navigation != null)
-                await Application.Current.MainPage.Navigation.PushAsync(page);
+            var notification = new PendingShippingWarningNotification(shippingWarningId.Trim(), originalWarehouse.Trim(), shortDescription);
+            if (!await TryOpenShippingWarningAsync(notification))
+                _pendingShippingWarningNotification = notification;
         });
+    }
+
+    public static async Task OpenPendingNotificationAsync()
+    {
+        var notification = _pendingShippingWarningNotification;
+        if (notification == null)
+            return;
+
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            if (await TryOpenShippingWarningAsync(notification))
+                _pendingShippingWarningNotification = null;
+        });
+    }
+
+    private static async Task<bool> TryOpenShippingWarningAsync(PendingShippingWarningNotification notification)
+    {
+        if (Shell.Current == null)
+            return false;
+
+        var page = new ShippingWarningDetailView(
+            notification.ShippingWarningId,
+            notification.OriginalWarehouse,
+            notification.ShortDescription);
+
+        await Shell.Current.Navigation.PushAsync(page);
+        return true;
+    }
+
+    private sealed class PendingShippingWarningNotification
+    {
+        public PendingShippingWarningNotification(string shippingWarningId, string originalWarehouse, string? shortDescription)
+        {
+            ShippingWarningId = shippingWarningId;
+            OriginalWarehouse = originalWarehouse;
+            ShortDescription = shortDescription;
+        }
+
+        public string ShippingWarningId { get; }
+        public string OriginalWarehouse { get; }
+        public string? ShortDescription { get; }
     }
 }

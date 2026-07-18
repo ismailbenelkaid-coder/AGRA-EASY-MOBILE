@@ -1093,6 +1093,8 @@ namespace AGRA_EASY_MOBILE.Services
                 await newShell.GoToAsync(route);
                 ShippingWarningNotificationService.RequestImmediateCheck();
             });
+
+            await MobileNotificationNavigationService.OpenPendingNotificationAsync();
         }
 
         public static async Task<T> ExecuteWithRetryAsync<T>(Func<Task<T>> serviceCall)
