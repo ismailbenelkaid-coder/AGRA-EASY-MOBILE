@@ -12,8 +12,7 @@ public static class PlatformEndpointResolver
         {
             using var stream = await FileSystem.OpenAppPackageFileAsync("platforms.xml");
             var doc = XDocument.Load(stream);
-            var node = doc.Descendants("Warehouse").FirstOrDefault(x =>
-                string.Equals(x.Attribute("Name")?.Value?.Trim(), warehouseName?.Trim(), StringComparison.OrdinalIgnoreCase));
+            var node = doc.Descendants("Warehouse").FirstOrDefault(x => IsAttributeMatch(x, "Name", warehouseName));
 
             var url = secondary ? node?.Attribute("Secondary")?.Value : node?.Attribute("Primary")?.Value;
             return string.IsNullOrWhiteSpace(url) ? DefaultUrl : url.Trim();
@@ -31,13 +30,21 @@ public static class PlatformEndpointResolver
 
         using var stream = await FileSystem.OpenAppPackageFileAsync("platforms.xml");
         var doc = XDocument.Load(stream);
-        var node = doc.Descendants("Warehouse").FirstOrDefault(x =>
-            string.Equals(x.Attribute("Name")?.Value?.Trim(), warehouseName.Trim(), StringComparison.OrdinalIgnoreCase));
+        var node = doc.Descendants("Warehouse").FirstOrDefault(x => IsAttributeMatch(x, "Code", warehouseName));
 
         var url = node?.Attribute("Primary")?.Value;
         if (string.IsNullOrWhiteSpace(url))
             throw new InvalidOperationException($"La plateforme '{warehouseName}' est introuvable dans la configuration des adresses.");
 
         return url.Trim();
+    }
+
+    private static bool IsAttributeMatch(XElement warehouse, string attributeName, string? value)
+    {
+        value = (value ?? string.Empty).Trim();
+        if (string.IsNullOrWhiteSpace(value))
+            return false;
+
+        return string.Equals(warehouse.Attribute(attributeName)?.Value?.Trim(), value, StringComparison.OrdinalIgnoreCase);
     }
 }

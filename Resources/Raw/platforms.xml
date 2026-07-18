@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Platforms>
-	<Warehouse Name="Meyzieu" Primary="https://security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
-	<Warehouse Name="Paris" Primary="https://dpa.security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://dpa.easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
-	<Warehouse Name="Lille" Primary="https://dnpa.security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://dnpa.easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
-	<Warehouse Name="Rennes" Primary="https://dbpa.security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://dbpa.easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
-	<Warehouse Name="Toulouse" Primary="https://dopa.security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://dopa.easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
-	<Warehouse Name="Marseille" Primary="https://dspa.security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://dspa.easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
+	<Warehouse Name="Meyzieu" Code="LYON" Primary="https://security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
+	<Warehouse Name="Paris" Code="PARIS" Primary="https://dpa.security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://dpa.easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
+	<Warehouse Name="Lille" Code="LILLE" Primary="https://dnpa.security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://dnpa.easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
+	<Warehouse Name="Rennes" Code="RENNES" Primary="https://dbpa.security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://dbpa.easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
+	<Warehouse Name="Toulouse" Code="TOULOUSE" Primary="https://dopa.security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://dopa.easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
+	<Warehouse Name="Marseille" Code="MARSEILLE" Primary="https://dspa.security.groupe-agra.fr/easy/services/ShoppingCartController.asmx" Secondary="http://dspa.easy.groupe-agra.fr/easy/services/ShoppingCartController.asmx" />
 </Platforms>
