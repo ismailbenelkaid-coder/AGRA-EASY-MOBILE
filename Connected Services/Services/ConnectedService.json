@@ -12,11 +12,6 @@
     ],
     "references": [
       "BarcodeScanning.Native.Maui, {BarcodeScanning.Native.Maui, 3.0.3}",
-      "C:\\Users\\ism_b\\Downloads\\AGRA-EASY-MOBILE-Version93\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\Microsoft.Maui.Controls.HotReload.Forms.dll",
-      "C:\\Users\\ism_b\\Downloads\\AGRA-EASY-MOBILE-Version93\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll",
-      "C:\\Users\\ism_b\\Downloads\\AGRA-EASY-MOBILE-Version93\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\Microsoft.VisualStudio.DesignTools.TapContract.dll",
-      "C:\\Users\\ism_b\\Downloads\\AGRA-EASY-MOBILE-Version93\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll",
-      "C:\\Users\\ism_b\\Downloads\\AGRA-EASY-MOBILE-Version93\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\Microsoft.Web.WebView2.Core.Projection.dll",
       "CommunityToolkit.Maui, {CommunityToolkit.Maui, 14.1.0}",
       "CommunityToolkit.Maui.Core, {CommunityToolkit.Maui.Core, 14.1.0}",
       "Microsoft.Extensions.Configuration, {Microsoft.Extensions.Configuration, 10.0.0}",

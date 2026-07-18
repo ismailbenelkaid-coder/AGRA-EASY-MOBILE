@@ -38,6 +38,10 @@ apple-signing-local/**
 *.keystore
 *.jks
 
+# Firebase local secrets/configuration
+Firebase/
+Firebase/**
+
 # OS files
 .DS_Store
 Thumbs.db

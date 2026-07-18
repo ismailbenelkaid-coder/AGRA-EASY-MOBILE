@@ -249,6 +249,14 @@ namespace Services
         [System.ServiceModel.OperationContractAttribute(Action="http://groupe-agra/GetShippingWarning", ReplyAction="*")]
         System.Threading.Tasks.Task<Services.ShippingWarning[]> GetShippingWarningAsync(string ShippingWarningId, string OriginalWarehouse);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://groupe-agra/RegisterMobileNotificationDevice", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        string RegisterMobileNotificationDevice(string registrationXml);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://groupe-agra/RegisterMobileNotificationDevice", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> RegisterMobileNotificationDeviceAsync(string registrationXml);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://groupe-agra/SetReturnBasketAccountCode", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
@@ -16299,6 +16307,16 @@ namespace Services
         public System.Threading.Tasks.Task<Services.ShippingWarning[]> GetShippingWarningAsync(string ShippingWarningId, string OriginalWarehouse)
         {
             return base.Channel.GetShippingWarningAsync(ShippingWarningId, OriginalWarehouse);
+        }
+        
+        public string RegisterMobileNotificationDevice(string registrationXml)
+        {
+            return base.Channel.RegisterMobileNotificationDevice(registrationXml);
+        }
+        
+        public System.Threading.Tasks.Task<string> RegisterMobileNotificationDeviceAsync(string registrationXml)
+        {
+            return base.Channel.RegisterMobileNotificationDeviceAsync(registrationXml);
         }
         
         public Services.ClientAccount SetReturnBasketAccountCode(string AccountCode)

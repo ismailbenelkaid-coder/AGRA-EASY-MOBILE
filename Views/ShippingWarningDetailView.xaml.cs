@@ -6,6 +6,7 @@ namespace AGRA_EASY_MOBILE;
 public partial class ShippingWarningDetailView : ContentPage
 {
     private readonly ShippingWarning _source;
+    private readonly bool _openedFromPushNotification;
     private bool _loaded;
 
     public ShippingWarningDetailView(ShippingWarning source)
@@ -13,6 +14,17 @@ public partial class ShippingWarningDetailView : ContentPage
         InitializeComponent();
         _source = source;
         ApplyWarning(source);
+    }
+
+    public ShippingWarningDetailView(string shippingWarningId, string originalWarehouse, string? shortDescription = null)
+        : this(new ShippingWarning
+        {
+            ShippingWarningId = shippingWarningId,
+            OriginalWarehouse = originalWarehouse,
+            ShortDescription = shortDescription ?? "Notification"
+        })
+    {
+        _openedFromPushNotification = true;
     }
 
     protected override async void OnAppearing()
@@ -33,7 +45,9 @@ public partial class ShippingWarningDetailView : ContentPage
         SetLoading(true);
         try
         {
-            var details = await EasySession.GetShippingWarningAsync(_source.ShippingWarningId, _source.OriginalWarehouse ?? string.Empty) ?? Array.Empty<ShippingWarning>();
+            var details = _openedFromPushNotification
+                ? await EasySession.GetShippingWarningFromNotificationAsync(_source.ShippingWarningId, _source.OriginalWarehouse ?? string.Empty)
+                : await EasySession.GetShippingWarningAsync(_source.ShippingWarningId, _source.OriginalWarehouse ?? string.Empty) ?? Array.Empty<ShippingWarning>();
             var detail = details.FirstOrDefault();
             if (detail != null)
                 ApplyWarning(detail);

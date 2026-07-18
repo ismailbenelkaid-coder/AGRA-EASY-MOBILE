@@ -1,6 +1,5 @@
 ﻿using Services;
 using System.ServiceModel;
-using System.Xml.Linq;
 using AGRA_EASY_MOBILE.Models;
 
 namespace AGRA_EASY_MOBILE.Services
@@ -932,7 +931,7 @@ namespace AGRA_EASY_MOBILE.Services
             if (Client != null && (IsConnected || CurrentAccount != null))
                 await CloseCurrentClientBeforeNewConnectionAsync();
 
-            CurrentUrl = await GetUrlFromPlatformsXml(warehouse, useSecondary);
+            CurrentUrl = await PlatformEndpointResolver.GetServiceUrlAsync(warehouse, useSecondary);
 
             var binding = CurrentUrl.ToLower().StartsWith("https")
                 ? new BasicHttpBinding(BasicHttpSecurityMode.Transport)
@@ -983,6 +982,12 @@ namespace AGRA_EASY_MOBILE.Services
                     GlobalState.ClearReturnFilter();
                     GlobalState.ClearCustomerBillingFilter();
                     _applicationShellResetRequired = true;
+                }
+
+                if (IsConnected)
+                {
+                    _ = FirebasePushNotificationService.EnsureRegisteredAsync();
+                    _ = MobileNotificationRegistrationService.TryRegisterCurrentDeviceAsync();
                 }
 
             return IsConnected;
@@ -1143,19 +1148,50 @@ namespace AGRA_EASY_MOBILE.Services
             throw new OperationCanceledException("La session a expiré et la reconnexion a échoué.", exception);
         }
 
-        private static async Task<string> GetUrlFromPlatformsXml(string warehouseName, bool secondary)
+        public static async Task<string?> RegisterMobileNotificationDeviceAsync(string registrationXml)
         {
+            return await CallServiceAsync(async () =>
+            {
+                return await Client.RegisterMobileNotificationDeviceAsync(registrationXml);
+            }, "RegisterMobileNotificationDevice", new SoapParameter("registrationXml", registrationXml));
+        }
+
+        public static async Task<ShippingWarning[]> GetShippingWarningFromNotificationAsync(string shippingWarningId, string originalWarehouse)
+        {
+            var targetUrl = await PlatformEndpointResolver.GetRequiredPrimaryServiceUrlAsync(originalWarehouse);
+
+            if (UseManualSoap)
+            {
+                using var manualClient = new EasySoapManualClient(targetUrl);
+                return await manualClient.InvokeAsync<ShippingWarning[]>(
+                    "GetShippingWarning",
+                    new SoapParameter("ShippingWarningId", shippingWarningId),
+                    new SoapParameter("OriginalWarehouse", originalWarehouse)) ?? Array.Empty<ShippingWarning>();
+            }
+
+            var binding = targetUrl.ToLowerInvariant().StartsWith("https")
+                ? new BasicHttpBinding(BasicHttpSecurityMode.Transport)
+                : new BasicHttpBinding(BasicHttpSecurityMode.None);
+
+            binding.MaxReceivedMessageSize = int.MaxValue;
+            binding.AllowCookies = true;
+
+            var temporaryClient = new ShoppingCartControllerSoapClient(binding, new EndpointAddress(targetUrl));
             try
             {
-                using var stream = await FileSystem.OpenAppPackageFileAsync("platforms.xml");
-                var doc = XDocument.Load(stream);
-                var node = doc.Descendants("Warehouse").FirstOrDefault(x => x.Attribute("Name")?.Value == warehouseName);
-                return (secondary ? node?.Attribute("Secondary")?.Value : node?.Attribute("Primary")?.Value)
-                       ?? "http://security.groupe-agra.fr/easy/services/ShoppingCartController.asmx";
+                return await temporaryClient.GetShippingWarningAsync(shippingWarningId, originalWarehouse)
+                    ?? Array.Empty<ShippingWarning>();
             }
-            catch
+            finally
             {
-                return "http://security.groupe-agra.fr/easy/services/ShoppingCartController.asmx";
+                try
+                {
+                    await temporaryClient.CloseAsync();
+                }
+                catch
+                {
+                    temporaryClient.Abort();
+                }
             }
         }
 

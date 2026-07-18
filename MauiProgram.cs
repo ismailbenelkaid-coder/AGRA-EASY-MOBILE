@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 using BarcodeScanning;
+using Plugin.FirebasePushNotifications;
 #if ANDROID || IOS || MACCATALYST || WINDOWS
 using Microsoft.Maui.Handlers;
 #endif
@@ -18,7 +19,8 @@ namespace AGRA_EASY_MOBILE
             var appBuilder = builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
-                .UseBarcodeScanning();
+                .UseBarcodeScanning()
+                .UseFirebasePushNotifications();
 
 #if ANDROID || IOS
             appBuilder.UseMauiNativePdfView();

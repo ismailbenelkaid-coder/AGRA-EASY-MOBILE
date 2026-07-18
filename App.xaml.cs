@@ -5,6 +5,7 @@ namespace AGRA_EASY_MOBILE
         public App()
         {
             InitializeComponent();
+            Services.FirebasePushNotificationService.Initialize();
         }
 
         /// <summary>
