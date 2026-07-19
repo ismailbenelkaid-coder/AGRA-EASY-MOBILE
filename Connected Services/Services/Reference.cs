@@ -626,6 +626,15 @@ namespace Services
         [System.ServiceModel.OperationContractAttribute(Action="http://groupe-agra/UploadRefusedReturnPicture", ReplyAction="*")]
         System.Threading.Tasks.Task<Services.UploadRefusedReturnPictureResponse> UploadRefusedReturnPictureAsync(Services.UploadRefusedReturnPictureRequest request);
         
+        // CODEGEN : Le paramètre 'DocumentByteTable' nécessite des informations de schéma supplémentaires qui ne peuvent pas être capturées en utilisant le mode du paramètre. L'attribut spécifique est 'Microsoft.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://groupe-agra/UploadSupplierRefundDocument", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        Services.UploadSupplierRefundDocumentResponse UploadSupplierRefundDocument(Services.UploadSupplierRefundDocumentRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://groupe-agra/UploadSupplierRefundDocument", ReplyAction="*")]
+        System.Threading.Tasks.Task<Services.UploadSupplierRefundDocumentResponse> UploadSupplierRefundDocumentAsync(Services.UploadSupplierRefundDocumentRequest request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://groupe-agra/IsCustomerBillingManager", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
@@ -15096,6 +15105,55 @@ namespace Services
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UploadSupplierRefundDocument", WrapperNamespace="http://groupe-agra/", IsWrapped=true)]
+    public partial class UploadSupplierRefundDocumentRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://groupe-agra/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] DocumentByteTable;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://groupe-agra/", Order=1)]
+        public string ReceptionTracingId;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://groupe-agra/", Order=2)]
+        public string FileExtension;
+        
+        public UploadSupplierRefundDocumentRequest()
+        {
+        }
+        
+        public UploadSupplierRefundDocumentRequest(byte[] DocumentByteTable, string ReceptionTracingId, string FileExtension)
+        {
+            this.DocumentByteTable = DocumentByteTable;
+            this.ReceptionTracingId = ReceptionTracingId;
+            this.FileExtension = FileExtension;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UploadSupplierRefundDocumentResponse", WrapperNamespace="http://groupe-agra/", IsWrapped=true)]
+    public partial class UploadSupplierRefundDocumentResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://groupe-agra/", Order=0)]
+        public string UploadSupplierRefundDocumentResult;
+        
+        public UploadSupplierRefundDocumentResponse()
+        {
+        }
+        
+        public UploadSupplierRefundDocumentResponse(string UploadSupplierRefundDocumentResult)
+        {
+            this.UploadSupplierRefundDocumentResult = UploadSupplierRefundDocumentResult;
+        }
+    }
+    
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -16796,6 +16854,37 @@ namespace Services
             inValue.PictureByteTable = PictureByteTable;
             inValue.ReceptionTracingId = ReceptionTracingId;
             return ((Services.ShoppingCartControllerSoap)(this)).UploadRefusedReturnPictureAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        Services.UploadSupplierRefundDocumentResponse Services.ShoppingCartControllerSoap.UploadSupplierRefundDocument(Services.UploadSupplierRefundDocumentRequest request)
+        {
+            return base.Channel.UploadSupplierRefundDocument(request);
+        }
+        
+        public string UploadSupplierRefundDocument(byte[] DocumentByteTable, string ReceptionTracingId, string FileExtension)
+        {
+            Services.UploadSupplierRefundDocumentRequest inValue = new Services.UploadSupplierRefundDocumentRequest();
+            inValue.DocumentByteTable = DocumentByteTable;
+            inValue.ReceptionTracingId = ReceptionTracingId;
+            inValue.FileExtension = FileExtension;
+            Services.UploadSupplierRefundDocumentResponse retVal = ((Services.ShoppingCartControllerSoap)(this)).UploadSupplierRefundDocument(inValue);
+            return retVal.UploadSupplierRefundDocumentResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Services.UploadSupplierRefundDocumentResponse> Services.ShoppingCartControllerSoap.UploadSupplierRefundDocumentAsync(Services.UploadSupplierRefundDocumentRequest request)
+        {
+            return base.Channel.UploadSupplierRefundDocumentAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Services.UploadSupplierRefundDocumentResponse> UploadSupplierRefundDocumentAsync(byte[] DocumentByteTable, string ReceptionTracingId, string FileExtension)
+        {
+            Services.UploadSupplierRefundDocumentRequest inValue = new Services.UploadSupplierRefundDocumentRequest();
+            inValue.DocumentByteTable = DocumentByteTable;
+            inValue.ReceptionTracingId = ReceptionTracingId;
+            inValue.FileExtension = FileExtension;
+            return ((Services.ShoppingCartControllerSoap)(this)).UploadSupplierRefundDocumentAsync(inValue);
         }
         
         public bool IsCustomerBillingManager()

@@ -12,6 +12,7 @@
     ],
     "references": [
       "BarcodeScanning.Native.Maui, {BarcodeScanning.Native.Maui, 3.0.3}",
+      "C:\\Users\\ism_b\\Documents\\Github\\AGRA-EASY-MOBILE\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\Microsoft.Web.WebView2.Core.Projection.dll",
       "CommunityToolkit.Maui, {CommunityToolkit.Maui, 14.1.0}",
       "CommunityToolkit.Maui.Core, {CommunityToolkit.Maui.Core, 14.1.0}",
       "Microsoft.Extensions.Configuration, {Microsoft.Extensions.Configuration, 10.0.0}",
@@ -73,6 +74,7 @@
       "Microsoft.WindowsAppRuntime.Bootstrap.Net, {Microsoft.WindowsAppSDK.Foundation, 1.8.251220000}",
       "Microsoft.WinUI, {Microsoft.WindowsAppSDK.WinUI, 1.8.251222000}",
       "Newtonsoft.Json, {Newtonsoft.Json, 13.0.4}",
+      "Plugin.FirebasePushNotifications, {Plugin.FirebasePushNotifications, 3.2.11}",
       "System.Numerics.Tensors, {System.Numerics.Tensors, 9.0.0}",
       "System.Security.Cryptography.Pkcs, {System.Security.Cryptography.Pkcs, 10.0.7}",
       "System.Security.Cryptography.Xml, {System.Security.Cryptography.Xml, 10.0.7}",

@@ -237,6 +237,58 @@ public partial class SupplierRefundView : ContentPage, INotifyPropertyChanged
             await OpenSupplierRefundDocumentAsync(item);
     }
 
+    private async void OnUploadSupplierRefundDocumentTapped(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is not SupplierRefundLine item)
+            return;
+
+        if (!CanUploadDocumentForCurrentWarehouse(item))
+            return;
+
+        var receptionTracingId = item.SupplierRefundLineCode?.Trim();
+        if (string.IsNullOrWhiteSpace(receptionTracingId))
+        {
+            await ModernAlertService.ShowWarningAsync("Le remboursement fournisseur n'a pas d'identifiant exploitable.");
+            return;
+        }
+
+        try
+        {
+            var selectedFile = await RefusedReturnPictureService.CaptureOrPickDocumentBytesAsync($"justificatif_fournisseur_{receptionTracingId}.jpg");
+            if (selectedFile == null)
+                return;
+
+            if (selectedFile.Bytes.Length == 0)
+            {
+                await ModernAlertService.ShowWarningAsync("Le fichier sélectionné est vide.");
+                return;
+            }
+
+            SetLoadingState(true);
+            var errorMessage = await EasySession.UploadSupplierRefundDocumentAsync(selectedFile.Bytes, receptionTracingId, selectedFile.Extension);
+            if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                await ModernAlertService.ShowErrorAsync(errorMessage);
+                return;
+            }
+
+            await ModernAlertService.ShowInfoAsync("Justificatif envoyé au serveur.");
+            await RefreshDataAsync();
+        }
+        catch (PermissionException)
+        {
+            await ModernAlertService.ShowWarningAsync("L'autorisation caméra n'a pas été accordée.");
+        }
+        catch (Exception ex)
+        {
+            await ModernAlertService.ShowErrorAsync(ex.Message);
+        }
+        finally
+        {
+            SetLoadingState(false);
+        }
+    }
+
     private async Task ShowFullSupplierCommentAsync(SupplierRefundLine item)
     {
         SetLoadingState(true);
@@ -353,6 +405,18 @@ public partial class SupplierRefundView : ContentPage, INotifyPropertyChanged
     {
         var text = string.IsNullOrWhiteSpace(value) ? DateTime.Now.ToString("yyyyMMddHHmmss") : value.Trim();
         return Regex.Replace(text, "[^A-Za-z0-9_-]", "_");
+    }
+
+    private static bool CanUploadDocumentForCurrentWarehouse(SupplierRefundLine item)
+    {
+        if (!EasySession.IsAdministrator)
+            return false;
+
+        var lineWarehouse = (item.Warehouse ?? string.Empty).Trim();
+        var currentWarehouse = (EasySession.CurrentAccount?.Warehouse ?? string.Empty).Trim();
+
+        return !string.IsNullOrWhiteSpace(lineWarehouse)
+            && string.Equals(lineWarehouse, currentWarehouse, StringComparison.OrdinalIgnoreCase);
     }
 
     private void SetLoadingState(bool isLoading)

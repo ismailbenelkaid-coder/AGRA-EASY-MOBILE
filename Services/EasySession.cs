@@ -211,6 +211,15 @@ namespace AGRA_EASY_MOBILE.Services
             }, "UploadRefusedReturnPicture", new SoapParameter("PictureByteTable", pictureByteTable), new SoapParameter("ReceptionTracingId", receptionTracingId));
         }
 
+        public static async Task<string> UploadSupplierRefundDocumentAsync(byte[] documentByteTable, string receptionTracingId, string fileExtension)
+        {
+            return await CallServiceAsync(async () =>
+            {
+                var response = await Client.UploadSupplierRefundDocumentAsync(documentByteTable, receptionTracingId, fileExtension);
+                return response.UploadSupplierRefundDocumentResult;
+            }, "UploadSupplierRefundDocument", new SoapParameter("DocumentByteTable", documentByteTable), new SoapParameter("ReceptionTracingId", receptionTracingId), new SoapParameter("FileExtension", fileExtension));
+        }
+
         public static async Task<SupplierRefundLine[]> GetSupplierRefundsLinesAsync(ReturnFilter f)
         {
             return await CallServiceAsync(async () =>

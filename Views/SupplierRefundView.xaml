@@ -59,7 +59,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="13" />
                         </Border.StrokeShape>
-                        <Grid WidthRequest="132"
+                        <Grid WidthRequest="112"
 
                               HeightRequest="36"
 
@@ -177,15 +177,16 @@
                                        VerticalOptions="Center"
                                        LineBreakMode="TailTruncation" />
 
-                                <HorizontalStackLayout Grid.Column="1"
-                                                       Spacing="4"
-                                                       HorizontalOptions="Center"
-                                                       VerticalOptions="Center">
-                                    <Border StrokeThickness="0"
-                                            BackgroundColor="#EEF7FF"
-                                            Padding="8,4"
-                                            VerticalOptions="Center"
-                                            HorizontalOptions="Center">
+                                  <HorizontalStackLayout Grid.Column="1"
+                                                        Spacing="4"
+                                                        WidthRequest="94"
+                                                        HorizontalOptions="Center"
+                                                        VerticalOptions="Center">
+                                     <Border StrokeThickness="0"
+                                             BackgroundColor="#EEF7FF"
+                                             Padding="8,4"
+                                             VerticalOptions="Center"
+                                             HorizontalOptions="Center">
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="10" />
                                         </Border.StrokeShape>
@@ -196,20 +197,25 @@
                                                LineBreakMode="NoWrap" />
                                     </Border>
 
-                                    <Border IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:SupplierRefundView}}, Path=ShowAdminStatusCode}"
+                                    <Border IsVisible="{Binding CanUploadDocumentForTreatedCurrentWarehouse}"
+                                            BackgroundColor="#ECFDF5"
                                             StrokeThickness="0"
-                                            BackgroundColor="#FEF3C7"
-                                            Padding="7,4"
+                                            WidthRequest="26"
+                                            HeightRequest="26"
                                             VerticalOptions="Center"
                                             HorizontalOptions="Center">
                                         <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="10" />
+                                            <RoundRectangle CornerRadius="9" />
                                         </Border.StrokeShape>
-                                        <Label Text="{Binding StatusCode}"
-                                               FontSize="11"
-                                               TextColor="#92400E"
-                                               HorizontalTextAlignment="Center"
-                                               LineBreakMode="NoWrap" />
+                                        <Image Source="ic_camera.png"
+                                               WidthRequest="15"
+                                               HeightRequest="15"
+                                               Aspect="AspectFit"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnUploadSupplierRefundDocumentTapped" CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
                                     </Border>
                                 </HorizontalStackLayout>
 
@@ -222,15 +228,38 @@
                                        LineBreakMode="NoWrap" />
                             </Grid>
 
-                            <Label Text="{Binding DisplayAccount}"
-                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:SupplierRefundView}}, Path=ShowAccountInfo}"
-                                   FontSize="13"
-                                   LineBreakMode="TailTruncation"
-                                   TextColor="#334155" />
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                <Label Grid.Column="0"
+                                       Text="{Binding DisplayAccount}"
+                                       IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:SupplierRefundView}}, Path=ShowAccountInfo}"
+                                       FontSize="13"
+                                       LineBreakMode="TailTruncation"
+                                       TextColor="#334155"
+                                       VerticalOptions="Center" />
+
+                                <Border Grid.Column="1"
+                                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:SupplierRefundView}}, Path=ShowAdminStatusCode}"
+                                        StrokeThickness="0"
+                                        BackgroundColor="#FEF3C7"
+                                        Padding="7,4"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="End"
+                                        WidthRequest="58">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding StatusCode}"
+                                           FontSize="11"
+                                           TextColor="#92400E"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           LineBreakMode="NoWrap" />
+                                </Border>
+                            </Grid>
 
                             <BoxView HeightRequest="0.5" Color="#E5EAF0" />
 
-                            <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="10" Padding="0,2">
+                            <Grid ColumnDefinitions="*,120,*" ColumnSpacing="10" Padding="0,2">
                                 <Label Grid.Column="0"
                                        Text="{Binding ReturnCode, StringFormat='Retour : {0}'}"
                                        FontSize="12"
@@ -275,18 +304,22 @@
                             </Grid>
 
                             <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8" Padding="0,0,0,2">
-                                <Label Grid.Column="0"
-                                       Text="{Binding ReturnClientCode, Converter={StaticResource ClientOrderCodeDisplayConverter}, ConverterParameter=22}"
-                                       InputTransparent="{Binding ReturnClientCode, Converter={StaticResource ClientOrderCodeInputTransparentConverter}, ConverterParameter=22}"
-                                       FontAttributes="Bold"
-                                       FontSize="11"
-                                       TextColor="#16A34A"
-                                       LineBreakMode="TailTruncation"
-                                       VerticalOptions="Center">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnReturnClientCodeTapped" CommandParameter="{Binding ReturnClientCode}" />
-                                    </Label.GestureRecognizers>
-                                </Label>
+                                <HorizontalStackLayout Grid.Column="0"
+                                                       Spacing="4"
+                                                       VerticalOptions="Center"
+                                                       HorizontalOptions="Start">
+                                    <Label Text="{Binding ReturnClientCode, Converter={StaticResource ClientOrderCodeDisplayConverter}, ConverterParameter=22}"
+                                           InputTransparent="{Binding ReturnClientCode, Converter={StaticResource ClientOrderCodeInputTransparentConverter}, ConverterParameter=22}"
+                                           FontAttributes="Bold"
+                                           FontSize="11"
+                                           TextColor="#16A34A"
+                                           LineBreakMode="TailTruncation"
+                                           VerticalOptions="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnReturnClientCodeTapped" CommandParameter="{Binding ReturnClientCode}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </HorizontalStackLayout>
 
                                 <Button Grid.Column="1"
                                         Text="…"

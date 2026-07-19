@@ -5,6 +5,7 @@ using Android.Content.PM;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
+using Android.Provider;
 using Android.Views;
 using Android.Widget;
 using AGRA_EASY_MOBILE.Services;
@@ -30,12 +31,14 @@ public class RefusedReturnCameraActivity : Activity, TextureView.ISurfaceTexture
     private HardwareCamera? _camera;
     private bool _isClosing;
     private string _preferredFileName = "retour_refuse.jpg";
+    private bool _allowAnyFileSelection;
 
     protected override void OnCreate(Bundle? savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
 
         _preferredFileName = Intent?.GetStringExtra(RefusedReturnCameraCoordinator.ExtraPreferredFileName) ?? "retour_refuse.jpg";
+        _allowAnyFileSelection = Intent?.GetBooleanExtra(RefusedReturnCameraCoordinator.ExtraAllowAnyFileSelection, false) ?? false;
 
         RequestWindowFeature(WindowFeatures.NoTitle);
         Window?.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
@@ -81,7 +84,7 @@ public class RefusedReturnCameraActivity : Activity, TextureView.ISurfaceTexture
         };
 
         var pickButton = CreateFloatingButton(Android.Resource.Drawable.IcMenuGallery, Dp(62));
-        pickButton.ContentDescription = "Choisir une photo";
+        pickButton.ContentDescription = _allowAnyFileSelection ? "Choisir un fichier" : "Choisir une photo";
         pickButton.Click += (_, _) => OpenPhotoPicker();
 
         var captureButton = CreateFloatingButton(Android.Resource.Drawable.IcMenuCamera, Dp(78));
@@ -123,10 +126,10 @@ public class RefusedReturnCameraActivity : Activity, TextureView.ISurfaceTexture
 
             var intent = new Intent(Intent.ActionOpenDocument);
             intent.AddCategory(Intent.CategoryOpenable);
-            intent.SetType("image/*");
+            intent.SetType(_allowAnyFileSelection ? "*/*" : "image/*");
             intent.AddFlags(ActivityFlags.GrantReadUriPermission);
 
-            StartActivityForResult(Intent.CreateChooser(intent, "Choisir une photo"), PickPhotoRequestCode);
+            StartActivityForResult(Intent.CreateChooser(intent, _allowAnyFileSelection ? "Choisir un fichier" : "Choisir une photo"), PickPhotoRequestCode);
         }
         catch (Exception ex)
         {
@@ -223,7 +226,9 @@ public class RefusedReturnCameraActivity : Activity, TextureView.ISurfaceTexture
 
         try
         {
-            var path = ConvertSelectedImageToJpeg(data.Data);
+            var path = _allowAnyFileSelection
+                ? CopySelectedFile(data.Data)
+                : ConvertSelectedImageToJpeg(data.Data);
             CompleteAndFinish(path);
         }
         catch (Exception ex)
@@ -248,6 +253,19 @@ public class RefusedReturnCameraActivity : Activity, TextureView.ISurfaceTexture
         return path;
     }
 
+    private string CopySelectedFile(Android.Net.Uri uri)
+    {
+        using var input = ContentResolver?.OpenInputStream(uri)
+            ?? throw new InvalidOperationException("Le fichier sélectionné ne peut pas être ouvert.");
+
+        var selectedFileName = GetDisplayName(uri);
+        var path = BuildCacheFilePath(selectedFileName);
+        using var output = IOFile.Create(path);
+        input.CopyTo(output);
+
+        return path;
+    }
+
     private string BuildCacheJpegPath()
     {
         var cleanName = SanitizeFileName(_preferredFileName);
@@ -257,6 +275,31 @@ public class RefusedReturnCameraActivity : Activity, TextureView.ISurfaceTexture
         var nameWithoutExtension = IOPath.GetFileNameWithoutExtension(cleanName);
         var fileName = $"{nameWithoutExtension}_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
         return IOPath.Combine(CacheDir?.AbsolutePath ?? IOPath.GetTempPath(), fileName);
+    }
+
+    private string BuildCacheFilePath(string? selectedFileName)
+    {
+        var cleanName = SanitizeFileName(string.IsNullOrWhiteSpace(selectedFileName) ? _preferredFileName : selectedFileName);
+        var extension = IOPath.GetExtension(cleanName);
+        if (string.IsNullOrWhiteSpace(extension))
+            extension = ".dat";
+
+        var nameWithoutExtension = IOPath.GetFileNameWithoutExtension(cleanName);
+        var fileName = $"{nameWithoutExtension}_{DateTime.Now:yyyyMMdd_HHmmss}{extension.ToLowerInvariant()}";
+        return IOPath.Combine(CacheDir?.AbsolutePath ?? IOPath.GetTempPath(), fileName);
+    }
+
+    private string? GetDisplayName(Android.Net.Uri uri)
+    {
+        using var cursor = ContentResolver?.Query(uri, null, null, null, null);
+        if (cursor != null && cursor.MoveToFirst())
+        {
+            var index = cursor.GetColumnIndex(OpenableColumns.DisplayName);
+            if (index >= 0)
+                return cursor.GetString(index);
+        }
+
+        return uri.LastPathSegment;
     }
 
     private static string SanitizeFileName(string fileName)

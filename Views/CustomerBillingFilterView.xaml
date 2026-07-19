@@ -29,10 +29,10 @@
                                 <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
                                 <VerticalStackLayout Spacing="2">
                                     <Label Text="De" FontSize="11" TextColor="#64748B" />
-                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <Grid ColumnDefinitions="*,32" ColumnSpacing="4">
                                         <local:BorderlessEntry x:Name="StartDateEntry" Placeholder="jj/mm/aaaa" Keyboard="Numeric" PlaceholderColor="#94A3B8" TextColor="#0F172A" BackgroundColor="Transparent" HeightRequest="34" />
-                                        <Grid Grid.Column="1" WidthRequest="38" HeightRequest="34">
-                                            <ImageButton Source="ic_calendar.png" BackgroundColor="#E0F2FE" CornerRadius="12" Padding="7" Aspect="AspectFit" />
+                                        <Grid Grid.Column="1" WidthRequest="32" HeightRequest="34">
+                                            <ImageButton Source="ic_calendar.png" BackgroundColor="#E0F2FE" CornerRadius="12" Padding="6" Aspect="AspectFit" />
                                             <local:BorderlessDatePicker x:Name="StartDatePicker" DateSelected="OnStartDateSelected" BackgroundColor="Transparent" Opacity="0.01" />
                                         </Grid>
                                     </Grid>
@@ -43,10 +43,10 @@
                                 <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
                                 <VerticalStackLayout Spacing="2">
                                     <Label Text="Jusqu'à" FontSize="11" TextColor="#64748B" />
-                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <Grid ColumnDefinitions="*,32" ColumnSpacing="4">
                                         <local:BorderlessEntry x:Name="EndDateEntry" Placeholder="jj/mm/aaaa" Keyboard="Numeric" PlaceholderColor="#94A3B8" TextColor="#0F172A" BackgroundColor="Transparent" HeightRequest="34" />
-                                        <Grid Grid.Column="1" WidthRequest="38" HeightRequest="34">
-                                            <ImageButton Source="ic_calendar.png" BackgroundColor="#E0F2FE" CornerRadius="12" Padding="7" Aspect="AspectFit" />
+                                        <Grid Grid.Column="1" WidthRequest="32" HeightRequest="34">
+                                            <ImageButton Source="ic_calendar.png" BackgroundColor="#E0F2FE" CornerRadius="12" Padding="6" Aspect="AspectFit" />
                                             <local:BorderlessDatePicker x:Name="EndDatePicker" DateSelected="OnEndDateSelected" BackgroundColor="Transparent" Opacity="0.01" />
                                         </Grid>
                                     </Grid>
