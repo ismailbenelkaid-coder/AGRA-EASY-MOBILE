@@ -65,7 +65,8 @@ workflows:
 
       - name: Build signed iOS IPA
         script: |
-          UPDATED_BUILD_NUMBER=$BUILD_NUMBER
+          # Continue above the expired TestFlight build 22, even with a fresh CI counter.
+          UPDATED_BUILD_NUMBER=$((BUILD_NUMBER + 22))
           CERT_NAME=$(keychain list-certificates | jq -r '.[0].common_name')
           PROFILE_NAME=$(find ~/Library/MobileDevice/Provisioning\ Profiles -name "*.mobileprovision" -exec sh -c '/usr/libexec/PlistBuddy -c "Print :Name" /dev/stdin <<< "$(security cms -D -i "$1")"' _ {} \; | head -n 1)
 
@@ -93,3 +94,5 @@ workflows:
 
       app_store_connect:
         auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false
